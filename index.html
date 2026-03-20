@@ -256,6 +256,100 @@ tbody td{padding:9px 12px;vertical-align:middle}
   border-top:1px solid var(--bd);margin-top:28px;background:#fff;
   display:flex;align-items:center;justify-content:center;gap:8px}
 .footer img{height:16px;opacity:.4}
+
+/* ── RESPONSIVO MOBILE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Header */
+  .hdr { flex-wrap: wrap; padding: 8px 12px; gap: 6px; }
+  .hl  { gap: 8px; }
+  .htag{ display: none; }
+  .hlogo { height: 24px; }
+
+  /* Nav — scroll horizontal */
+  .hnav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    gap: 2px;
+  }
+  .hnav::-webkit-scrollbar { display: none; }
+  .nb { padding: 6px 10px; font-size: 12px; white-space: nowrap; }
+
+  /* Status bar */
+  .sbar { padding: 4px 12px; font-size: 10px; }
+
+  /* Main */
+  .main { padding: 12px; }
+  .st   { font-size: 20px; }
+
+  /* Grids → 1 coluna */
+  .g2, .g3, .g4, .g35 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* KPI cards */
+  .kpi { padding: 12px; }
+  .kv  { font-size: 22px; }
+
+  /* Cards */
+  .cc2 { border-radius: 8px; }
+  .cb  { padding: 10px 12px; }
+
+  /* Tabelas — scroll horizontal */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 500px; }
+
+  /* Header do resumo de orçamento */
+  #orcResumo {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+  #orcResumo > div:first-child { gap: 12px !important; }
+  #orcResumo input { width: 100% !important; }
+  #orc_cobrar { width: 100% !important; }
+
+  /* Grids internos do orçamento → 1 coluna */
+  #orc .g2,
+  #orc [style*="grid-template-columns:1fr 1fr"],
+  #orc [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  #orc [style*="grid-template-columns:1fr 1fr 1fr"],
+  #orc [style*="grid-template-columns: 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Botões de markup — menores */
+  .orc-markup-btn { padding: 4px 8px; font-size: 11px; }
+
+  /* Terraplanagem rows → empilhar */
+  #blk_terra [style*="grid-template-columns:1fr auto auto"],
+  #blk_terra [style*="grid-template-columns:1fr auto"] {
+    grid-template-columns: 1fr !important;
+  }
+  #blk_terra input[type=number] { width: 100% !important; }
+
+  /* Agenda — iframe */
+  iframe { min-height: 350px; }
+
+  /* Charts — altura menor */
+  .ch-wrap { height: 160px !important; }
+}
+
+@media (max-width: 480px) {
+  .hright { display: none; }
+  .nb { font-size: 11px; padding: 5px 8px; }
+  .main { padding: 8px; }
+  .g2, .g3, .g4 { gap: 8px; }
+  #orcResumo > div:first-child { flex-direction: column !important; gap: 8px !important; }
+}
+/* ────────────────────────────────────────────────────────────────── */
 </style>
 </head>
 <body>
