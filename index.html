@@ -236,7 +236,13 @@ tbody td{padding:9px 12px;vertical-align:middle}
 .fp{font-size:10px;color:var(--t3);margin-top:3px}
 .dl{height:1px;background:var(--bd);margin:12px 0}
 
-/* FOOTER */
+/* ORÇAMENTO FORM */
+.orc-input{width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:"Barlow",sans-serif;font-size:13px;outline:none;transition:border .15s;box-sizing:border-box}
+.orc-input:focus{border-color:var(--am)}
+.orc-drain-btn{padding:7px 14px;border-radius:7px;border:1.5px solid var(--bd);background:#fff;font-family:"Barlow",sans-serif;font-size:12px;font-weight:700;color:var(--t2);cursor:pointer;transition:all .15s}
+.orc-drain-btn.on{background:var(--am);color:#fff;border-color:var(--am)}
+.orc-prazo-btn{padding:6px 12px;border-radius:7px;border:1.5px solid var(--bd);background:#fff;font-family:"Barlow",sans-serif;font-size:12px;font-weight:700;color:var(--t2);cursor:pointer;transition:all .15s}
+.orc-prazo-btn.on{background:var(--bk);color:#fff;border-color:var(--bk)}
 .footer{text-align:center;padding:14px;font-size:11px;color:var(--t3);
   border-top:1px solid var(--bd);margin-top:28px;background:#fff;
   display:flex;align-items:center;justify-content:center;gap:8px}
@@ -276,6 +282,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <button class="nb"          onclick="go('crm',this)">CRM</button>
     <button class="nb"          onclick="go('agenda',this)">Agenda</button>
     <button class="nb admin-only" onclick="go('metas',this)">Metas</button>
+    <button class="nb"          onclick="go('orc',this)">📋 Orçamentos</button>
   </nav>
   <div class="hright">
     <span class="hperfil" id="hPerfil"></span>
@@ -498,6 +505,205 @@ tbody td{padding:9px 12px;vertical-align:middle}
   </div>
 </section>
 
+<!-- ORÇAMENTOS -->
+<section id="orc" class="sec">
+<div class="sh"><div><div class="st">Formulário de <span>Visita</span></div>
+<div class="sd">Willian e Iago preenchem após visita técnica · Squad revisa automaticamente</div></div>
+<button onclick="limparFormOrc()" style="padding:6px 16px;background:transparent;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--t3);cursor:pointer">↺ Limpar</button>
+</div>
+
+<div class="g2">
+<!-- COLUNA ESQUERDA -->
+<div style="display:flex;flex-direction:column;gap:14px">
+
+<!-- Tipo de cliente -->
+<div class="cc2"><div class="ch"><div class="ct">👤 Tipo de Cliente</div></div><div class="cb">
+<div style="display:flex;gap:10px;margin-bottom:14px">
+  <button id="btnParticular" onclick="setTipoCliente('particular')" style="flex:1;padding:10px;border-radius:8px;border:2px solid var(--am);background:var(--am);color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;cursor:pointer">Particular</button>
+  <button id="btnCondominio" onclick="setTipoCliente('condominio')" style="flex:1;padding:10px;border-radius:8px;border:2px solid var(--bd);background:#fff;color:var(--t2);font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;cursor:pointer">Condomínio</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+  <div>
+    <div class="kl" style="margin-bottom:4px">Nome do Cliente / Síndico</div>
+    <input id="orc_cliente" class="orc-input" placeholder="Ex: João Lima">
+  </div>
+  <div id="bloco_condominio" style="display:none;flex-direction:column;gap:8px">
+    <div>
+      <div class="kl" style="margin-bottom:4px">Nome do Condomínio</div>
+      <input id="orc_condominio" class="orc-input" placeholder="Ex: Residencial 26 de Setembro">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div>
+        <div class="kl" style="margin-bottom:4px">Nº de Moradores</div>
+        <input id="orc_moradores" class="orc-input" type="number" placeholder="Ex: 40">
+      </div>
+      <div>
+        <div class="kl" style="margin-bottom:4px">Interesse em Parcelamento?</div>
+        <select id="orc_parcelamento" class="orc-input">
+          <option value="">Não verificado</option>
+          <option value="sim_boleto">Sim — Boleto</option>
+          <option value="sim_cartao">Sim — Cartão</option>
+          <option value="sim_ambos">Sim — Ambos</option>
+          <option value="nao">Não, à vista</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="kl" style="margin-bottom:4px">Local / Endereço</div>
+    <input id="orc_local" class="orc-input" placeholder="Ex: 26 de Setembro — Brasília/DF">
+  </div>
+</div>
+</div></div>
+
+<!-- Bloquete -->
+<div class="cc2"><div class="ch"><div class="ct">🏗️ Bloquete</div></div><div class="cb">
+<div style="display:flex;flex-direction:column;gap:8px">
+  <div>
+    <div class="kl" style="margin-bottom:4px">Metragem (m²)</div>
+    <input id="orc_metragem" class="orc-input" type="number" placeholder="Ex: 1150">
+  </div>
+  <div>
+    <div class="kl" style="margin-bottom:6px">Tipo de Bloquete</div>
+    <div style="display:flex;gap:8px">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+        <input type="checkbox" id="orc_prensado" style="width:16px;height:16px;accent-color:var(--am)"> Prensado 35MPA
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+        <input type="checkbox" id="orc_usinado" style="width:16px;height:16px;accent-color:var(--am)"> Usinado (liso)
+      </label>
+    </div>
+  </div>
+  <div id="bloco_frete_usinado" style="display:none">
+    <div class="strip" style="margin-bottom:0;font-size:11px">⚠️ Bloquete usinado — calcular frete: R$800/viagem para cada 120m²</div>
+  </div>
+</div>
+</div></div>
+
+<!-- Meio-fio -->
+<div class="cc2"><div class="ch">
+  <div class="ct">〰️ Meio-fio</div>
+  <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
+    <input type="checkbox" id="orc_tem_meiofio" onchange="toggleMeiofio()" style="accent-color:var(--am)"> Precisa
+  </label>
+</div><div class="cb">
+<div id="bloco_meiofio" style="display:none;display:none;flex-direction:column;gap:8px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div>
+      <div class="kl" style="margin-bottom:4px">Cordão (und)</div>
+      <input id="orc_mf_cordao" class="orc-input" type="number" placeholder="Ex: 300">
+    </div>
+    <div>
+      <div class="kl" style="margin-bottom:4px">NOVACAP (und)</div>
+      <input id="orc_mf_novacap" class="orc-input" type="number" placeholder="Ex: 150">
+    </div>
+  </div>
+</div>
+<div id="bloco_meiofio_off" style="color:var(--t3);font-size:12px">Marque "Precisa" para habilitar</div>
+</div></div>
+
+</div><!-- fim coluna esquerda -->
+
+<!-- COLUNA DIREITA -->
+<div style="display:flex;flex-direction:column;gap:14px">
+
+<!-- Terraplanagem -->
+<div class="cc2"><div class="ch">
+  <div class="ct">🚜 Terraplanagem</div>
+  <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
+    <input type="checkbox" id="orc_tem_terra" onchange="toggleTerra()" style="accent-color:var(--am)"> Precisa
+  </label>
+</div><div class="cb">
+<div id="bloco_terra" style="display:none">
+  <div class="kl" style="margin-bottom:8px">Equipamentos necessários</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+    ${['Retroescavadeira','Patrol (motoniveladora)','Rolo compactador','Caminhão pipa','Cascalho','Terra vermelha','Retirada de entulho','Caçamba'].map((eq,i)=>`
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px">
+      <input type="checkbox" id="orc_eq_${i}" style="accent-color:var(--am)"> ${eq}
+    </label>`).join('')}
+  </div>
+  <div>
+    <div class="kl" style="margin-bottom:4px">Observação (dias, viagens, complexidade)</div>
+    <input id="orc_terra_obs" class="orc-input" placeholder="Ex: Retro 2 dias + rolo 1 dia + 3 viagens cascalho">
+  </div>
+</div>
+<div id="bloco_terra_off" style="color:var(--t3);font-size:12px">Marque "Precisa" para habilitar</div>
+</div></div>
+
+<!-- Drenagem -->
+<div class="cc2"><div class="ch"><div class="ct">💧 Drenagem / Águas Pluviais</div></div><div class="cb">
+<div style="display:flex;gap:8px;margin-bottom:12px">
+  <button class="orc-drain-btn on" id="drainNao" onclick="setDrenagem('nao',this)">Não precisa</button>
+  <button class="orc-drain-btn" id="drainSumi" onclick="setDrenagem('sumidouros',this)">Sumidouros</button>
+  <button class="orc-drain-btn" id="drainTubos" onclick="setDrenagem('tubos',this)">Águas Pluviais</button>
+</div>
+<div id="bloco_sumi" style="display:none">
+  <div class="kl" style="margin-bottom:4px">Quantidade de Sumidouros</div>
+  <input id="orc_sumi_qtd" class="orc-input" type="number" placeholder="Ex: 6">
+  <div class="strip" style="margin-top:8px;font-size:11px">💡 6 sumidouros = ~R$9.000 de custo</div>
+</div>
+<div id="bloco_tubos" style="display:none;flex-direction:column;gap:8px">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+    <div><div class="kl" style="margin-bottom:4px">Tubos 400mm</div><input id="orc_t400" class="orc-input" type="number" placeholder="Qtd"></div>
+    <div><div class="kl" style="margin-bottom:4px">Tubos 600mm</div><input id="orc_t600" class="orc-input" type="number" placeholder="Qtd"></div>
+    <div><div class="kl" style="margin-bottom:4px">Tubos 800mm</div><input id="orc_t800" class="orc-input" type="number" placeholder="Qtd"></div>
+  </div>
+  <div><div class="kl" style="margin-bottom:4px">Caixas Receptoras</div><input id="orc_caixas" class="orc-input" type="number" placeholder="Qtd"></div>
+</div>
+</div></div>
+
+<!-- Outros -->
+<div class="cc2"><div class="ch"><div class="ct">🧰 Outros Materiais</div></div><div class="cb">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px"><input type="checkbox" id="orc_out_placa" style="accent-color:var(--am)"><span><strong>Placa vibratória</strong><br><span style="color:var(--t3);font-size:10px">R$150/dia</span></span></label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px"><input type="checkbox" id="orc_out_sapinho" style="accent-color:var(--am)"><span><strong>Sapinho</strong><br><span style="color:var(--t3);font-size:10px">R$150/dia</span></span></label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px"><input type="checkbox" id="orc_out_gasolina" style="accent-color:var(--am)"><span><strong>Gasolina ferramentas</strong><br><span style="color:var(--t3);font-size:10px">R$50-100</span></span></label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px"><input type="checkbox" id="orc_out_cimento" style="accent-color:var(--am)"><span><strong>Cimento</strong><br><span style="color:var(--t3);font-size:10px">R$35/saco</span></span></label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px"><input type="checkbox" id="orc_out_brita" style="accent-color:var(--am)"><span><strong>Caminhão de brita</strong><br><span style="color:var(--t3);font-size:10px">R$2.000/viagem</span></span></label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:6px;background:var(--grxl);border-radius:6px"><input type="checkbox" id="orc_out_areia" style="accent-color:var(--am)"><span><strong>Caminhão de areia</strong><br><span style="color:var(--t3);font-size:10px">R$2.000/viagem</span></span></label>
+</div>
+<div>
+  <div class="kl" style="margin-bottom:4px">Outros não listados</div>
+  <input id="orc_outros_livre" class="orc-input" placeholder="Descreva outros itens necessários">
+</div>
+</div></div>
+
+<!-- Observações -->
+<div class="cc2"><div class="ch"><div class="ct">📝 Observações</div></div><div class="cb">
+<textarea id="orc_obs" style="width:100%;padding:10px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;outline:none;resize:vertical;min-height:80px" placeholder="Dificuldades de acesso, condições do terreno, informações do síndico, etc."></textarea>
+</div></div>
+
+<!-- Prazo -->
+<div class="cc2"><div class="ch"><div class="ct">📅 Prazo Estimado</div></div><div class="cb">
+<div style="display:flex;gap:8px">
+  <button class="orc-prazo-btn" id="prazo10" onclick="setPrazo(10,this)">10 dias</button>
+  <button class="orc-prazo-btn" id="prazo15" onclick="setPrazo(15,this)">15 dias</button>
+  <button class="orc-prazo-btn" id="prazo20" onclick="setPrazo(20,this)">20 dias</button>
+  <button class="orc-prazo-btn" id="prazo30" onclick="setPrazo(30,this)">30 dias</button>
+  <button class="orc-prazo-btn" id="prazo40" onclick="setPrazo(40,this)">40 dias</button>
+  <button class="orc-prazo-btn" id="prazo50" onclick="setPrazo(50,this)">50 dias</button>
+</div>
+<input id="orc_prazo_custom" class="orc-input" type="number" placeholder="Ou digite o prazo em dias" style="margin-top:8px">
+</div></div>
+
+</div><!-- fim coluna direita -->
+</div><!-- fim g2 -->
+
+<!-- BOTÃO ENVIAR -->
+<div style="background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:20px;box-shadow:var(--sh);margin-top:4px">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--t)">Pronto para enviar ao Squad?</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:2px">O agente revisor vai analisar os dados e alertar possíveis erros antes de gerar a proposta</div>
+    </div>
+    <button onclick="enviarParaSquad()" style="padding:12px 32px;background:var(--am);color:#fff;border:none;border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s">
+      🤖 Enviar para o Squad
+    </button>
+  </div>
+  <div id="orc_resultado" style="display:none;margin-top:16px;padding:14px;background:var(--gnl);border-radius:8px;border-left:3px solid var(--gn);font-size:13px;color:var(--t)"></div>
+</div>
+
+</section>
 </main>
 <footer class="footer">
   <img src="data:image/png;base64,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" alt="MarQ"> MarQ Group · Dashboard v5 · <span id="fTs">—</span>
@@ -1408,6 +1614,144 @@ function mkLine(id,data,color){
     datasets:[{data,borderColor:color,backgroundColor:color+"18",tension:.35,fill:true,
       pointBackgroundColor:color,pointRadius:3,pointHoverRadius:5}]},
     {plugins:{legend:{display:false}},scales:{y:{grid:{color:"#f4f4f4"},ticks:{callback:v=>K(v)}},x:{grid:{display:false}}}});
+}
+
+// ── ORÇAMENTOS FORM ──
+let tipoCliente = 'particular';
+let tipoDrenagem = 'nao';
+let prazoDias = null;
+
+function setTipoCliente(t) {
+  tipoCliente = t;
+  document.getElementById('btnParticular').style.background = t==='particular'?'var(--am)':'#fff';
+  document.getElementById('btnParticular').style.color = t==='particular'?'#fff':'var(--t2)';
+  document.getElementById('btnParticular').style.borderColor = t==='particular'?'var(--am)':'var(--bd)';
+  document.getElementById('btnCondominio').style.background = t==='condominio'?'var(--am)':'#fff';
+  document.getElementById('btnCondominio').style.color = t==='condominio'?'#fff':'var(--t2)';
+  document.getElementById('btnCondominio').style.borderColor = t==='condominio'?'var(--am)':'var(--bd)';
+  document.getElementById('bloco_condominio').style.display = t==='condominio'?'flex':'none';
+}
+
+function toggleMeiofio() {
+  const on = document.getElementById('orc_tem_meiofio').checked;
+  document.getElementById('bloco_meiofio').style.display = on?'flex':'none';
+  document.getElementById('bloco_meiofio_off').style.display = on?'none':'block';
+}
+
+function toggleTerra() {
+  const on = document.getElementById('orc_tem_terra').checked;
+  document.getElementById('bloco_terra').style.display = on?'block':'none';
+  document.getElementById('bloco_terra_off').style.display = on?'none':'block';
+}
+
+function setDrenagem(t, btn) {
+  tipoDrenagem = t;
+  document.querySelectorAll('.orc-drain-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('bloco_sumi').style.display = t==='sumidouros'?'block':'none';
+  document.getElementById('bloco_tubos').style.display = t==='tubos'?'flex':'none';
+}
+
+function setPrazo(d, btn) {
+  prazoDias = d;
+  document.querySelectorAll('.orc-prazo-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('orc_prazo_custom').value = '';
+}
+
+// Alerta frete usinado
+document.addEventListener('DOMContentLoaded', ()=>{
+  ['orc_prensado','orc_usinado'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('change', ()=>{
+      const usinado = document.getElementById('orc_usinado')?.checked;
+      const el2 = document.getElementById('bloco_frete_usinado');
+      if(el2) el2.style.display = usinado?'block':'none';
+    });
+  });
+});
+
+function limparFormOrc() {
+  ['orc_cliente','orc_condominio','orc_local','orc_metragem','orc_moradores',
+   'orc_terra_obs','orc_outros_livre','orc_obs','orc_prazo_custom',
+   'orc_mf_cordao','orc_mf_novacap','orc_sumi_qtd','orc_t400','orc_t600',
+   'orc_t800','orc_caixas'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.querySelectorAll('#orc input[type=checkbox]').forEach(cb=>cb.checked=false);
+  setTipoCliente('particular');
+  setDrenagem('nao', document.getElementById('drainNao'));
+  toggleMeiofio(); toggleTerra();
+  document.querySelectorAll('.orc-prazo-btn').forEach(b=>b.classList.remove('on'));
+  prazoDias = null;
+  document.getElementById('orc_resultado').style.display='none';
+  document.getElementById('bloco_frete_usinado').style.display='none';
+}
+
+function enviarParaSquad() {
+  const prazo = prazoDias || parseInt(document.getElementById('orc_prazo_custom').value) || null;
+  const prensado = document.getElementById('orc_prensado')?.checked;
+  const usinado = document.getElementById('orc_usinado')?.checked;
+
+  // Validações básicas
+  const erros = [];
+  if(!document.getElementById('orc_cliente').value) erros.push('Nome do cliente obrigatório');
+  if(!document.getElementById('orc_local').value) erros.push('Local obrigatório');
+  if(!document.getElementById('orc_metragem').value) erros.push('Metragem obrigatória');
+  if(!prensado && !usinado) erros.push('Selecione pelo menos um tipo de bloquete');
+  if(!prazo) erros.push('Informe o prazo estimado');
+  if(tipoCliente==='condominio' && !document.getElementById('orc_moradores').value)
+    erros.push('Número de moradores obrigatório para condomínio');
+
+  const res = document.getElementById('orc_resultado');
+  res.style.display = 'block';
+
+  if(erros.length) {
+    res.style.background = 'var(--rdl)';
+    res.style.borderLeftColor = 'var(--rd)';
+    res.innerHTML = '<strong>⚠️ Corrija antes de enviar:</strong><br>' + erros.map(e=>`• ${e}`).join('<br>');
+    return;
+  }
+
+  // Monta o resumo para o squad
+  const eqs = ['Retroescavadeira','Patrol','Rolo compactador','Caminhão pipa',
+                'Cascalho','Terra vermelha','Retirada entulho','Caçamba'];
+  const equip = eqs.filter((e,i)=>document.getElementById(`orc_eq_${i}`)?.checked).join(', ');
+  const outros = ['placa','sapinho','gasolina','cimento','brita','areia']
+    .filter(o=>document.getElementById(`orc_out_${o}`)?.checked);
+
+  const m = parseFloat(document.getElementById('orc_metragem').value);
+  const tipo = [prensado?'Prensado':null, usinado?'Usinado':null].filter(Boolean).join(' + ');
+
+  // Alertas automáticos
+  const alertas = [];
+  if(usinado) alertas.push(`🔴 Bloquete usinado — frete: ${Math.ceil(m/120)} viagens = R$ ${Math.ceil(m/120)*800}`);
+  if(m > 200 && !document.getElementById('orc_tem_terra').checked)
+    alertas.push('🟡 Terraplanagem não marcada — confirmar se não precisa');
+  if(tipoCliente==='condominio' && tipoDrenagem==='nao' && m > 500)
+    alertas.push('🟡 Drenagem não avaliada — verificar necessidade para obra grande');
+  if(m < 200)
+    alertas.push('🟡 Obra <200m² — mão de obra por empreita, não por m²');
+
+  const html = `
+    <strong>✅ Formulário enviado para o Squad!</strong><br><br>
+    <strong>📋 Resumo:</strong><br>
+    • Cliente: ${document.getElementById('orc_cliente').value}
+    ${tipoCliente==='condominio'?`<br>• Condomínio: ${document.getElementById('orc_condominio').value||'—'}`:''}
+    ${tipoCliente==='condominio'?`<br>• Moradores: ${document.getElementById('orc_moradores').value||'—'}`:''}
+    <br>• Local: ${document.getElementById('orc_local').value}
+    <br>• Metragem: ${m}m² — ${tipo}
+    <br>• Meio-fio: ${document.getElementById('orc_tem_meiofio')?.checked?`Cordão ${document.getElementById('orc_mf_cordao').value||0}un / NOVACAP ${document.getElementById('orc_mf_novacap').value||0}un`:'Não'}
+    <br>• Terraplanagem: ${document.getElementById('orc_tem_terra')?.checked?equip||'Sim':'Não'}
+    <br>• Drenagem: ${tipoDrenagem==='nao'?'Não precisa':tipoDrenagem==='sumidouros'?`${document.getElementById('orc_sumi_qtd').value} sumidouros`:`Tubos 400mm:${document.getElementById('orc_t400').value||0} / Caixas:${document.getElementById('orc_caixas').value||0}`}
+    <br>• Prazo: ${prazo} dias úteis
+    ${alertas.length?`<br><br><strong>⚠️ Alertas do Squad:</strong><br>${alertas.join('<br>')}`:''} 
+    <br><br><em style="color:var(--t3);font-size:11px">Cole este resumo no Claude Code para o Squad gerar a proposta</em>
+  `;
+
+  res.style.background = 'var(--gnl)';
+  res.style.borderLeftColor = 'var(--gn)';
+  res.innerHTML = html;
 }
 
 // ── BOOT ──
