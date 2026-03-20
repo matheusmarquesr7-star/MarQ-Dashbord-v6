@@ -619,30 +619,57 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div>
 
 <!-- CARD DE CUSTO TOTAL FLUTUANTE -->
-<div id="orcResumo" style="background:var(--bk);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-  <div style="display:flex;gap:24px;flex-wrap:wrap">
-    <div>
-      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Custo Total</div>
-      <div id="orcCustoTotal" style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:#fff">R$ 0</div>
-      <div id="orcCustoBreak" style="display:none;margin-top:4px;font-size:10px;color:#aaa;line-height:1.6"></div>
+<div id="orcResumo" style="background:var(--bk);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;color:#fff;display:flex;flex-direction:column;gap:12px">
+
+  <!-- Markup -->
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup:</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
+      <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
+      <button class="orc-markup-btn" id="mk25" onclick="setMarkup(25,this)">25%</button>
+      <button class="orc-markup-btn" id="mk40" onclick="setMarkup(40,this)">40%</button>
+      <button class="orc-markup-btn" id="mk45" onclick="setMarkup(45,this)">45%</button>
     </div>
-    <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup</div>
-      <div style="display:flex;gap:6px;margin-top:4px">
-        <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
-        <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
-        <button class="orc-markup-btn" id="mk25" onclick="setMarkup(25,this)">25%</button>
-        <button class="orc-markup-btn" id="mk40" onclick="setMarkup(40,this)">40%</button>
-        <button class="orc-markup-btn" id="mk45" onclick="setMarkup(45,this)">45%</button>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:10px;color:#aaa;margin-bottom:3px">Valor a cobrar (editável)</div>
+      <input id="orc_cobrar" type="number" placeholder="ou defina o valor" oninput="recalc()" style="padding:7px 10px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:7px;color:#fff;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;width:180px;outline:none">
+    </div>
+  </div>
+
+  <!-- Cards de custo — 1 ou 2 dependendo da seleção -->
+  <div id="orcCards" style="display:flex;gap:12px;flex-wrap:wrap">
+
+    <!-- Card único (quando só uma opção) -->
+    <div id="cardUnico" style="flex:1;min-width:220px;background:rgba(255,255,255,.06);border-radius:8px;padding:12px 16px">
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px">Custo Total</div>
+      <div id="orcCustoTotal" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="orcPrecoVenda" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--am)">R$ 0</div></div>
+        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="orcMargem" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--gn)">0%</div></div>
       </div>
     </div>
-    <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Preço de Venda</div>
-      <div id="orcPrecoVenda" style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--am)">R$ 0</div></div>
-    <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Margem</div>
-      <div id="orcMargem" style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--gn)">0%</div></div>
-  </div>
-  <div style="text-align:right">
-    <div style="font-size:10px;color:#aaa;margin-bottom:4px">Valor a cobrar (editável)</div>
-    <input id="orc_cobrar" type="number" placeholder="ou defina o valor" onchange="recalc()" style="padding:8px 12px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:7px;color:#fff;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;width:180px;outline:none">
+
+    <!-- Card PRENSADO (quando ambos selecionados) -->
+    <div id="cardPrensado" style="display:none;flex:1;min-width:220px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px 16px">
+      <div style="font-size:10px;color:var(--am);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">🔶 Opção Prensado</div>
+      <div id="custoPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--am)">R$ 0</div></div>
+        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="margemPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--gn)">0%</div></div>
+      </div>
+    </div>
+
+    <!-- Card USINADO (quando ambos selecionados) -->
+    <div id="cardUsinado" style="display:none;flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px 16px">
+      <div style="font-size:10px;color:#ccc;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">⬜ Opção Usinado</div>
+      <div id="custoUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--am)">R$ 0</div></div>
+        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="margemUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--gn)">0%</div></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -978,9 +1005,12 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <!-- Outros livres -->
     <div style="padding:8px 10px;background:var(--grxl);border-radius:7px">
       <div style="font-size:12px;font-weight:600;margin-bottom:6px">➕ Outros não listados</div>
-      <div style="display:grid;grid-template-columns:1fr auto;gap:6px">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center">
         <input id="orc_outros_desc" class="orc-input" placeholder="Descrição do item" style="font-size:12px">
-        <input id="orc_outros_val" class="orc-input" type="number" placeholder="R$" oninput="recalc()" style="width:90px;font-size:12px">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span style="font-size:11px;color:var(--t3);white-space:nowrap">R$</span>
+          <input id="orc_outros_val" class="orc-input" type="number" placeholder="0,00" oninput="recalc()" style="width:100px;font-size:12px">
+        </div>
       </div>
     </div>
   </div>
@@ -2166,44 +2196,42 @@ function recalc(){
   const m = n('orc_metragem');
   const prensado = chk('orc_prensado');
   const usinado  = chk('orc_usinado');
-  let custo = 0;
   let linhas = [];
 
-  // ── BLOQUETE ──
-  let custoBloq = 0;
+  // ── BLOQUETE — separado por tipo, nunca somado ──
+  let custoBloqP = 0; // prensado
+  let custoBloqU = 0; // usinado
   if(m > 0){
     const moEmpreita = m < 200;
     el('orc_mao_obra_empreita').style.display = moEmpreita ? 'block' : 'none';
+    const mo = moEmpreita ? n('orc_mo_empreita') : m * MO_BLQ;
+    const po = m * PO_BRITA;
 
     if(prensado){
-      const blq  = m * BLQ_PRENSADO;
-      const po   = m * PO_BRITA;
-      const mo   = moEmpreita ? n('orc_mo_empreita') : m * MO_BLQ;
-      const sub  = blq + po + mo;
-      custoBloq += sub;
-      linhas.push(`Prensado: ${fmt(blq)} + Pó brita: ${fmt(po)} + MO: ${fmt(mo)} = <strong>${fmt(sub)}</strong>`);
+      custoBloqP = m * BLQ_PRENSADO + po + mo;
+      linhas.push(`Prensado: ${fmt(m*BLQ_PRENSADO)} + Pó brita: ${fmt(po)} + MO: ${fmt(mo)} = <strong>${fmt(custoBloqP)}</strong>`);
     }
     if(usinado){
       const viagens = Math.ceil(m / FRETE_USINADO_M2);
       const frete   = viagens * FRETE_USINADO_VIAG;
-      const blq     = m * BLQ_USINADO;
-      const po      = m * PO_BRITA;
-      const mo      = m < 200 ? n('orc_mo_empreita') : m * MO_BLQ;
-      const sub     = blq + po + mo + frete;
-      custoBloq += sub;
-      linhas.push(`Usinado: ${fmt(blq)} + Pó brita: ${fmt(po)} + MO: ${fmt(mo)} + Frete(${viagens}x): ${fmt(frete)} = <strong>${fmt(sub)}</strong>`);
+      custoBloqU = m * BLQ_USINADO + po + mo + frete;
+      linhas.push(`Usinado: ${fmt(m*BLQ_USINADO)} + Pó brita: ${fmt(po)} + MO: ${fmt(mo)} + Frete(${viagens}x): ${fmt(frete)} = <strong>${fmt(custoBloqU)}</strong>`);
     }
 
     if(prensado || usinado){
       show('orc_bloquete_breakdown');
       el('orc_bloquete_linhas').innerHTML = linhas.join('<br>');
-      el('orc_bloquete_custo_label').textContent = fmt(custoBloq);
+      if(prensado && usinado)
+        el('orc_bloquete_custo_label').textContent = 'P: '+fmt(custoBloqP)+' | U: '+fmt(custoBloqU);
+      else
+        el('orc_bloquete_custo_label').textContent = fmt(prensado ? custoBloqP : custoBloqU);
     } else {
       hide('orc_bloquete_breakdown');
       el('orc_bloquete_custo_label').textContent = '';
     }
   }
-  custo += custoBloq;
+  // Os outros custos (MF, terra, dren, outros) são calculados 1x pois são iguais para ambas opções
+  let custo = 0; // usado como acumulador temporário para esses itens
 
   // ── MEIO-FIO ──
   let custoMF = 0;
@@ -2226,12 +2254,12 @@ function recalc(){
   if(chk('orc_tem_terra')){
     if(chk('ck_retro')){
       const diaria=n('orc_retro_diaria')||RETRO_DIA;
-      const dias=n('orc_retro_dias'), frete=n('orc_retro_frete')||750;
+      const dias=n('orc_retro_dias'), frete=n('orc_retro_frete');
       custoTerra += dias*diaria + (dias>0?frete:0);
     }
     if(chk('ck_patrol')){
       const diaria=n('orc_patrol_diaria')||PATROL_DIA;
-      const dias=n('orc_patrol_dias'), frete=n('orc_patrol_frete')||1000;
+      const dias=n('orc_patrol_dias'), frete=n('orc_patrol_frete');
       custoTerra += dias*diaria + (dias>0?frete:0);
     }
     if(chk('ck_pipa'))     custoTerra += n('orc_pipa_dias')*PIPA_DIA + n('orc_pipa_viag')*PIPA_VIAG;
@@ -2298,34 +2326,52 @@ function recalc(){
   el('orc_outros_custo_label').textContent = custoOutros>0 ? fmt(custoOutros) : '';
   custo += custoOutros;
 
-  // ── TOTAIS ──
-  const venda  = custo * (1 + orcMarkup/100);
-  const margem = custo>0 ? ((venda-custo)/venda*100).toFixed(1) : 0;
-  el('orcCustoTotal').textContent = fmt(custo);
-  el('orcPrecoVenda').textContent = fmt(venda);
-  el('orcMargem').textContent     = margem+'%';
-  // Show breakdown when both types selected
-  const bk = el('orcCustoBreak');
-  if(m>0 && prensado && usinado){
-    const viagens=Math.ceil(m/120);
-    const custoP = m*BLQ_PRENSADO + m*PO_BRITA + (m<200?n('orc_mo_empreita'):m*MO_BLQ);
-    const custoU = m*BLQ_USINADO  + m*PO_BRITA + (m<200?n('orc_mo_empreita'):m*MO_BLQ) + viagens*FRETE_USINADO_VIAG;
-    const restante = custo - custoP; // outros custos além do bloquete
-    bk.style.display='block';
-    bk.innerHTML=`Opção Prensado: ${fmt(custoP+restante)}<br>Opção Usinado: ${fmt(custoU+restante)}`;
-  } else {
-    bk.style.display='none';
-  }
+  // ── TOTAIS — separado por tipo de bloquete ──
+  const ambos      = prensado && usinado;
+  const custoExtra = custo; // MF + terra + dren + outros (idêntico para as duas opções)
+  const cTP        = custoBloqP + custoExtra; // custo total prensado
+  const cTU        = custoBloqU + custoExtra; // custo total usinado
+  const custoRef   = prensado ? cTP : cTU;    // referência quando só um tipo
 
-  // Se usuário digitou valor de cobrar manualmente, recalcula margem
   const cobrar = n('orc_cobrar');
-  if(cobrar > 0 && custo > 0){
-    const mReal = ((cobrar-custo)/cobrar*100).toFixed(1);
-    el('orcPrecoVenda').textContent = fmt(cobrar);
-    el('orcMargem').textContent     = mReal+'%';
-    el('orcMargem').style.color = parseFloat(mReal) < 18 ? 'var(--rd)' : 'var(--gn)';
+  const mk     = orcMarkup / 100;
+  const vCalc  = c  => cobrar>0 ? cobrar : c*(1+mk);
+  const mCalc  = (c,v) => c>0 ? ((v-c)/v*100).toFixed(1) : '0.0';
+  const mColor = v => parseFloat(v)<18 ? 'var(--rd)' : 'var(--gn)';
+
+  if(ambos){
+    el('cardUnico').style.display    = 'none';
+    el('cardPrensado').style.display = 'flex';
+    el('cardUsinado').style.display  = 'flex';
+
+    const vP=vCalc(cTP), vU=vCalc(cTU);
+    const mP=mCalc(cTP,vP), mU=mCalc(cTU,vU);
+
+    el('custoPrensado').textContent  = fmt(cTP);
+    el('vendaPrensado').textContent  = fmt(vP);
+    el('margemPrensado').textContent = mP+'%';
+    el('margemPrensado').style.color = mColor(mP);
+
+    el('custoUsinado').textContent   = fmt(cTU);
+    el('vendaUsinado').textContent   = fmt(vU);
+    el('margemUsinado').textContent  = mU+'%';
+    el('margemUsinado').style.color  = mColor(mU);
+
+    el('orcCustoTotal').textContent  = fmt(cTP);
+    el('orcPrecoVenda').textContent  = fmt(vP);
+    el('orcMargem').textContent      = mP+'%';
+
   } else {
-    el('orcMargem').style.color = 'var(--gn)';
+    el('cardUnico').style.display    = 'flex';
+    el('cardPrensado').style.display = 'none';
+    el('cardUsinado').style.display  = 'none';
+
+    const v = vCalc(custoRef);
+    const m = mCalc(custoRef, v);
+    el('orcCustoTotal').textContent = fmt(custoRef);
+    el('orcPrecoVenda').textContent = fmt(v);
+    el('orcMargem').textContent     = m+'%';
+    el('orcMargem').style.color     = mColor(m);
   }
 }
 
