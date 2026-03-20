@@ -252,6 +252,8 @@ tbody td{padding:9px 12px;vertical-align:middle}
 .orc-prazo-btn.on{background:var(--bk);color:#fff;border-color:var(--bk)}
 .orc-markup-btn{padding:5px 12px;border-radius:6px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-family:"Barlow",sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
 .orc-markup-btn.on{background:var(--am);border-color:var(--am);color:#fff}
+.orc-resp-btn{padding:6px 14px;border-radius:7px;border:1.5px solid var(--bd);background:#fff;font-family:"Barlow",sans-serif;font-size:12px;font-weight:700;color:var(--t2);cursor:pointer;transition:all .15s}
+.orc-resp-btn.on{background:var(--bk);color:#fff;border-color:var(--bk)}
 .footer{text-align:center;padding:14px;font-size:11px;color:var(--t3);
   border-top:1px solid var(--bd);margin-top:28px;background:#fff;
   display:flex;align-items:center;justify-content:center;gap:8px}
@@ -619,13 +621,18 @@ tbody td{padding:9px 12px;vertical-align:middle}
 <!-- CARD DE CUSTO TOTAL FLUTUANTE -->
 <div id="orcResumo" style="background:var(--bk);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
   <div style="display:flex;gap:24px;flex-wrap:wrap">
-    <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Custo Total</div>
-      <div id="orcCustoTotal" style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:#fff">R$ 0</div></div>
+    <div>
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Custo Total</div>
+      <div id="orcCustoTotal" style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:#fff">R$ 0</div>
+      <div id="orcCustoBreak" style="display:none;margin-top:4px;font-size:10px;color:#aaa;line-height:1.6"></div>
+    </div>
     <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup</div>
       <div style="display:flex;gap:6px;margin-top:4px">
         <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
         <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
         <button class="orc-markup-btn" id="mk25" onclick="setMarkup(25,this)">25%</button>
+        <button class="orc-markup-btn" id="mk40" onclick="setMarkup(40,this)">40%</button>
+        <button class="orc-markup-btn" id="mk45" onclick="setMarkup(45,this)">45%</button>
       </div>
     </div>
     <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Preço de Venda</div>
@@ -671,6 +678,15 @@ tbody td{padding:9px 12px;vertical-align:middle}
     </div>
     <div><div class="kl" style="margin-bottom:3px">Local / Endereço</div>
       <input id="orc_local" class="orc-input" placeholder="Ex: 26 de Setembro — Brasília/DF"></div>
+    <div>
+      <div class="kl" style="margin-bottom:3px">Quem está preenchendo</div>
+      <div style="display:flex;gap:8px">
+        <button class="orc-resp-btn on" id="resp_willian" onclick="setResp('Willian',this)">Willian</button>
+        <button class="orc-resp-btn" id="resp_iago" onclick="setResp('Iago',this)">Iago</button>
+        <button class="orc-resp-btn" id="resp_kauan" onclick="setResp('Kauan',this)">Kauan</button>
+        <button class="orc-resp-btn" id="resp_matheus" onclick="setResp('Matheus',this)">Matheus</button>
+      </div>
+    </div>
   </div>
 </div></div>
 
@@ -788,6 +804,13 @@ tbody td{padding:9px 12px;vertical-align:middle}
       </div>
       <input id="orc_caixas" class="orc-input" type="number" placeholder="Qtd" oninput="recalc()">
     </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <div class="kl">Dissipadores</div>
+        <span style="font-size:10px;color:var(--t3)">R$3.000/un</span>
+      </div>
+      <input id="orc_dissipadores" class="orc-input" type="number" placeholder="Qtd" oninput="recalc()">
+    </div>
     <div id="orc_tubos_calc" style="background:var(--gnl);border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gn);font-weight:700;display:none"></div>
   </div>
 </div></div>
@@ -811,19 +834,23 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div>
       <div class="kl" style="margin-bottom:6px">Equipamentos e Quantidade</div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div id="terra_retro" style="display:none;grid-template-columns:1fr auto auto;gap:6px;align-items:center">
-          <span style="font-size:12px">Retroescavadeira <span style="color:var(--t3)">(R$1.500/dia + R$500-1000 frete)</span></span>
-          <input type="number" id="orc_retro_dias" placeholder="Dias" oninput="recalc()" style="width:70px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
-          <input type="number" id="orc_retro_frete" placeholder="Frete R$" oninput="recalc()" style="width:90px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+        <div id="terra_retro" style="display:none;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center">
+          <span style="font-size:12px">Retroescavadeira <span style="color:var(--t3)">(padrão R$1.500/dia)</span></span>
+          <input type="number" id="orc_retro_diaria" placeholder="R$/dia" oninput="recalc()" style="width:80px;padding:6px 8px;border:1.5px solid var(--am);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none" title="Deixe em branco para usar R$1.500">
+          <input type="number" id="orc_retro_dias" placeholder="Dias" oninput="recalc()" style="width:60px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+          <input type="number" id="orc_retro_frete" placeholder="Frete R$" oninput="recalc()" style="width:80px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
         </div>
-        <div id="terra_patrol" style="display:none;grid-template-columns:1fr auto auto;gap:6px;align-items:center">
-          <span style="font-size:12px">Patrol/Rolo <span style="color:var(--t3)">(R$2.500/dia + R$1.000 frete)</span></span>
-          <input type="number" id="orc_patrol_dias" placeholder="Dias" oninput="recalc()" style="width:70px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
-          <input type="number" id="orc_patrol_frete" placeholder="Frete R$" oninput="recalc()" style="width:90px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+        <div id="terra_patrol" style="display:none;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center">
+          <span style="font-size:12px">Patrol/Rolo <span style="color:var(--t3)">(padrão R$2.500/dia)</span></span>
+          <input type="number" id="orc_patrol_diaria" placeholder="R$/dia" oninput="recalc()" style="width:80px;padding:6px 8px;border:1.5px solid var(--am);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none" title="Deixe em branco para usar R$2.500">
+          <input type="number" id="orc_patrol_dias" placeholder="Dias" oninput="recalc()" style="width:60px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+          <input type="number" id="orc_patrol_frete" placeholder="Frete R$" oninput="recalc()" style="width:80px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
         </div>
-        <div id="terra_pipa" style="display:none;grid-template-columns:1fr auto;gap:6px;align-items:center">
-          <span style="font-size:12px">Caminhão pipa <span style="color:var(--t3)">(R$1.000/dia)</span></span>
-          <input type="number" id="orc_pipa_dias" placeholder="Dias" oninput="recalc()" style="width:70px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+        <div id="terra_pipa" style="display:none;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center">
+          <span style="font-size:12px">Caminhão pipa <span style="color:var(--t3)">(R$1.000/dia | R$350/viagem)</span></span>
+          <input type="number" id="orc_pipa_dias" placeholder="Dias" oninput="recalc()" style="width:65px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+          <span style="font-size:10px;color:var(--t3)">viagens</span>
+          <input type="number" id="orc_pipa_viag" placeholder="Viag" oninput="recalc()" style="width:65px;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
         </div>
         <div id="terra_cascalho" style="display:none;grid-template-columns:1fr auto;gap:6px;align-items:center">
           <span style="font-size:12px">Cascalho <span style="color:var(--t3)">(R$700/viagem)</span></span>
@@ -933,6 +960,18 @@ tbody td{padding:9px 12px;vertical-align:middle}
       <div id="blk_areia" style="display:none;align-items:center;gap:6px">
         <input type="number" id="orc_areia_viag" placeholder="Viagens" oninput="recalc()" style="width:70px;padding:5px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
         <span id="orc_areia_calc" style="font-size:11px;color:var(--gn);font-weight:700;min-width:70px;text-align:right"></span>
+      </div>
+    </div>
+
+    <!-- Ramais conduites -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--grxl);border-radius:7px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="ck_ramal" onchange="toggleOutro('ramal',this)" style="accent-color:var(--am);width:15px;height:15px">
+        <div><div style="font-size:12px;font-weight:600">Ramais — Conduítes (energia/internet)</div><div style="font-size:10px;color:var(--t3)">R$35/m²</div></div>
+      </div>
+      <div id="blk_ramal" style="display:none;align-items:center;gap:6px">
+        <input type="number" id="orc_ramal_m2" placeholder="m²" oninput="recalc()" style="width:65px;padding:5px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+        <span id="orc_ramal_calc" style="font-size:11px;color:var(--gn);font-weight:700;min-width:70px;text-align:right"></span>
       </div>
     </div>
 
@@ -1956,6 +1995,7 @@ function limparFormOrc() {
     const el=document.getElementById(id); if(el) el.value='';
   });
   document.querySelectorAll('#orc input[type=checkbox]').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.orc-resp-btn').forEach(b=>b.classList.remove('on')); el('resp_willian').classList.add('on'); orcResp='Willian';
   setTipoCliente('particular');
   setDrenagem('nao', document.getElementById('drainNao'));
   toggleMeiofio(); toggleTerra();
@@ -2036,14 +2076,15 @@ function enviarParaSquad() {
 let orcTipo = 'particular';
 let orcDren = 'nao';
 let orcMarkup = 35;
+let orcResp = 'Willian';
 let orcPrazo = null;
 
 const BLQ_PRENSADO = 56, BLQ_USINADO = 40, PO_BRITA = 8, MO_BLQ = 8;
 const FRETE_USINADO_VIAG = 800, FRETE_USINADO_M2 = 120;
 const MF_CORDAO = 24, MF_NOVACAP = 28;
-const TUBO400 = 125, TUBO600 = 180, TUBO800 = 240, CAIXA = 1500, SUMI = 1500;
-const RETRO_DIA = 1500, PATROL_DIA = 2500, PIPA_DIA = 1000;
-const CASCALHO = 700, ENTULHO = 400, TERRA_V = 400, CACAMBA = 350;
+const TUBO400 = 125, TUBO600 = 180, TUBO800 = 280, CAIXA = 1500, SUMI = 1500, DISSIPADOR = 3000;
+const RETRO_DIA = 1500, PATROL_DIA = 2500, PIPA_DIA = 1000, PIPA_VIAG = 350;
+const CASCALHO = 700, ENTULHO = 500, TERRA_V = 400, CACAMBA = 350, RAMAL_M2 = 35;
 const PLACA_DIA = 150, SAPINHO_DIA = 150, BRITA_VIAG = 2000, AREIA_VIAG = 2000;
 
 function fmt(v){ return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
@@ -2063,6 +2104,12 @@ function setTipo(t,btn){
     b.style.borderColor=on?'var(--am)':'var(--bd)';
   });
   el('blk_cond').style.display=t==='condominio'?'flex':'none';
+}
+
+function setResp(nome,btn){
+  orcResp=nome;
+  document.querySelectorAll('.orc-resp-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
 }
 
 function setMarkup(v,btn){
@@ -2178,14 +2225,16 @@ function recalc(){
   let custoTerra = 0;
   if(chk('orc_tem_terra')){
     if(chk('ck_retro')){
+      const diaria=n('orc_retro_diaria')||RETRO_DIA;
       const dias=n('orc_retro_dias'), frete=n('orc_retro_frete')||750;
-      custoTerra += dias*RETRO_DIA + (dias>0?frete:0);
+      custoTerra += dias*diaria + (dias>0?frete:0);
     }
     if(chk('ck_patrol')){
+      const diaria=n('orc_patrol_diaria')||PATROL_DIA;
       const dias=n('orc_patrol_dias'), frete=n('orc_patrol_frete')||1000;
-      custoTerra += dias*PATROL_DIA + (dias>0?frete:0);
+      custoTerra += dias*diaria + (dias>0?frete:0);
     }
-    if(chk('ck_pipa'))     custoTerra += n('orc_pipa_dias')    * PIPA_DIA;
+    if(chk('ck_pipa'))     custoTerra += n('orc_pipa_dias')*PIPA_DIA + n('orc_pipa_viag')*PIPA_VIAG;
     if(chk('ck_cascalho')) custoTerra += n('orc_cascalho_viag')* CASCALHO;
     if(chk('ck_entulho'))  custoTerra += n('orc_entulho_viag') * ENTULHO;
     if(chk('ck_terra'))    custoTerra += n('orc_terra_viag')   * TERRA_V;
@@ -2207,14 +2256,16 @@ function recalc(){
     sc.textContent   = custoDren>0 ? '✅ '+n('orc_sumi_qtd')+' sumidouros = '+fmt(custoDren) : '';
     el('orc_dren_custo_label').textContent = custoDren>0 ? fmt(custoDren) : '';
   } else if(orcDren === 'tubos'){
-    const c400 = n('orc_t400')*TUBO400, c600=n('orc_t600')*TUBO600,
-          c800 = n('orc_t800')*TUBO800, cCx=n('orc_caixas')*CAIXA;
-    custoDren = c400+c600+c800+cCx;
+    const c400=n('orc_t400')*TUBO400, c600=n('orc_t600')*TUBO600,
+          c800=n('orc_t800')*TUBO800, cCx=n('orc_caixas')*CAIXA,
+          cDis=n('orc_dissipadores')*DISSIPADOR;
+    custoDren = c400+c600+c800+cCx+cDis;
     let tl=[];
     if(c400) tl.push(`400mm(${n('orc_t400')}un): ${fmt(c400)}`);
     if(c600) tl.push(`600mm(${n('orc_t600')}un): ${fmt(c600)}`);
     if(c800) tl.push(`800mm(${n('orc_t800')}un): ${fmt(c800)}`);
     if(cCx)  tl.push(`Caixas(${n('orc_caixas')}un): ${fmt(cCx)}`);
+    if(cDis) tl.push(`Dissipadores(${n('orc_dissipadores')}un): ${fmt(cDis)}`);
     const tc=el('orc_tubos_calc');
     tc.style.display = custoDren>0?'block':'none';
     tc.innerHTML     = custoDren>0 ? '✅ '+tl.join(' | ')+' = <strong>'+fmt(custoDren)+'</strong>' : '';
@@ -2232,6 +2283,7 @@ function recalc(){
     {ck:'ck_cimento', val:()=>n('orc_cimento_sacos')*35,        span:'orc_cimento_calc'},
     {ck:'ck_brita',   val:()=>n('orc_brita_viag')*BRITA_VIAG,  span:'orc_brita_calc'},
     {ck:'ck_areia',   val:()=>n('orc_areia_viag')*AREIA_VIAG,  span:'orc_areia_calc'},
+    {ck:'ck_ramal',   val:()=>n('orc_ramal_m2')*RAMAL_M2,      span:'orc_ramal_calc'},
   ];
   calcOtros.forEach(o=>{
     if(chk(o.ck)){
@@ -2247,11 +2299,23 @@ function recalc(){
   custo += custoOutros;
 
   // ── TOTAIS ──
-  const venda   = custo * (1 + orcMarkup/100);
-  const margem  = custo>0 ? ((venda-custo)/venda*100).toFixed(1) : 0;
-  el('orcCustoTotal').textContent  = fmt(custo);
-  el('orcPrecoVenda').textContent  = fmt(venda);
-  el('orcMargem').textContent      = margem+'%';
+  const venda  = custo * (1 + orcMarkup/100);
+  const margem = custo>0 ? ((venda-custo)/venda*100).toFixed(1) : 0;
+  el('orcCustoTotal').textContent = fmt(custo);
+  el('orcPrecoVenda').textContent = fmt(venda);
+  el('orcMargem').textContent     = margem+'%';
+  // Show breakdown when both types selected
+  const bk = el('orcCustoBreak');
+  if(m>0 && prensado && usinado){
+    const viagens=Math.ceil(m/120);
+    const custoP = m*BLQ_PRENSADO + m*PO_BRITA + (m<200?n('orc_mo_empreita'):m*MO_BLQ);
+    const custoU = m*BLQ_USINADO  + m*PO_BRITA + (m<200?n('orc_mo_empreita'):m*MO_BLQ) + viagens*FRETE_USINADO_VIAG;
+    const restante = custo - custoP; // outros custos além do bloquete
+    bk.style.display='block';
+    bk.innerHTML=`Opção Prensado: ${fmt(custoP+restante)}<br>Opção Usinado: ${fmt(custoU+restante)}`;
+  } else {
+    bk.style.display='none';
+  }
 
   // Se usuário digitou valor de cobrar manualmente, recalcula margem
   const cobrar = n('orc_cobrar');
@@ -2308,7 +2372,7 @@ function enviarOrc(){
   res.style.borderLeft='3px solid var(--gn)';
   res.innerHTML=`
 <strong>✅ Resumo para o Squad</strong><br><br>
-<strong>📋 Cliente:</strong> ${el('orc_cliente').value}
+<strong>👤 Preenchido por:</strong> ${orcResp}<br><strong>📋 Cliente:</strong> ${el('orc_cliente').value}
 ${orcTipo==='condominio'?`<br><strong>🏘️ Condomínio:</strong> ${el('orc_condominio').value||'—'} (${n('orc_moradores')} moradores)`:''} 
 <br><strong>📍 Local:</strong> ${el('orc_local').value}
 <br><strong>📐 Metragem:</strong> ${m}m²
@@ -2327,27 +2391,28 @@ ${alertas.length?`<br><br><strong>⚠️ Alertas:</strong><br>${alertas.join('<b
 function limparFormOrc(){
   ['orc_cliente','orc_condominio','orc_local','orc_metragem','orc_moradores','orc_terra_desc',
    'orc_outros_desc','orc_outros_val','orc_obs','orc_prazo_custom','orc_mf_cordao','orc_mf_novacap',
-   'orc_sumi_qtd','orc_t400','orc_t600','orc_t800','orc_caixas','orc_mo_empreita','orc_cobrar',
-   'orc_retro_dias','orc_retro_frete','orc_patrol_dias','orc_patrol_frete','orc_pipa_dias',
+   'orc_sumi_qtd','orc_t400','orc_t600','orc_t800','orc_caixas','orc_dissipadores','orc_mo_empreita','orc_cobrar',
+   'orc_retro_dias','orc_retro_frete','orc_retro_diaria','orc_patrol_dias','orc_patrol_frete','orc_patrol_diaria','orc_pipa_dias','orc_pipa_viag',
    'orc_cascalho_viag','orc_entulho_viag','orc_terra_viag','orc_cacamba_qtd',
-   'orc_placa_dias','orc_sapinho_dias','orc_cimento_sacos','orc_gasolina_val',
+   'orc_placa_dias','orc_sapinho_dias','orc_cimento_sacos','orc_gasolina_val','orc_ramal_m2',
    'orc_brita_viag','orc_areia_viag'].forEach(id=>{
      const e=el(id); if(e) e.value='';
   });
   document.querySelectorAll('#orc input[type=checkbox]').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.orc-resp-btn').forEach(b=>b.classList.remove('on')); el('resp_willian').classList.add('on'); orcResp='Willian';
   setTipo('particular',el('btnPart'));
   setDren('nao',el('drainNao'));
   toggleMF(); toggleTerra();
   ['retro','patrol','pipa','cascalho','entulho','terra','cacamba'].forEach(eq=>{
     const row=el('terra_'+eq); if(row) row.style.display='none';
   });
-  ['placa','sapinho','cimento','gasolina','brita','areia'].forEach(o=>{
+  ['placa','sapinho','cimento','gasolina','brita','areia','ramal'].forEach(o=>{
     const b=el('blk_'+o); if(b) b.style.display='none';
   });
   document.querySelectorAll('.orc-prazo-btn').forEach(b=>b.classList.remove('on'));
   orcPrazo=null; orcMarkup=35;
   document.querySelectorAll('.orc-markup-btn').forEach(b=>b.classList.remove('on'));
-  el('mk35').classList.add('on');
+  el('mk35').classList.add('on'); orcMarkup=35;
   el('orc_resultado').style.display='none';
   recalc();
 }
