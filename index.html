@@ -706,6 +706,8 @@ tbody td{padding:9px 12px;vertical-align:middle}
     </div>
     <div><div class="kl" style="margin-bottom:3px">Local / Endereço</div>
       <input id="orc_local" class="orc-input" placeholder="Ex: 26 de Setembro — Brasília/DF"></div>
+    <div><div class="kl" style="margin-bottom:3px">Data da Visita</div>
+      <input id="orc_data_visita" class="orc-input" type="date"></div>
     <div>
       <div class="kl" style="margin-bottom:3px">Quem está preenchendo</div>
       <div style="display:flex;gap:8px">
@@ -2499,6 +2501,7 @@ function enviarOrc(){
 <strong>👤 Preenchido por:</strong> ${orcResp}<br><strong>📋 Cliente:</strong> ${el('orc_cliente').value}
 ${orcTipo==='condominio'?`<br><strong>🏘️ Condomínio:</strong> ${el('orc_condominio').value||'—'} (${n('orc_moradores')} moradores)`:''}
 <br><strong>📍 Local:</strong> ${el('orc_local').value}
+${el('orc_data_visita').value?`<br><strong>📅 Data da visita:</strong> ${el('orc_data_visita').value.split('-').reverse().join('/')}`:'' }
 <br><strong>📐 Metragem:</strong> ${m}m²
 <br><strong>🏗️ Bloquete:</strong> ${[chk('orc_prensado')?'Prensado':null,chk('orc_usinado')?'Usinado':null].filter(Boolean).join(' + ')}
 ${chk('orc_tem_mf')?`<br><strong>〰️ Meio-fio:</strong> Cordão: ${n('orc_mf_cordao')} un | NOVACAP: ${n('orc_mf_novacap')} un`:''}
@@ -2514,7 +2517,7 @@ ${alertas.length?`<br><br><strong>⚠️ Alertas:</strong><br>${alertas.join('<b
 }
 
 function limparFormOrc(){
-  ['orc_cliente','orc_condominio','orc_local','orc_metragem','orc_moradores','orc_terra_desc',
+  ['orc_cliente','orc_condominio','orc_local','orc_data_visita','orc_metragem','orc_moradores','orc_terra_desc',
    'orc_outros_desc','orc_outros_val','orc_obs','orc_prazo_custom','orc_mf_cordao','orc_mf_novacap',
    'orc_sumi_qtd','orc_t400','orc_t600','orc_t800','orc_caixas','orc_dissipadores','orc_mo_empreita','orc_cobrar',
    'orc_retro_dias','orc_retro_frete','orc_retro_diaria','orc_patrol_dias','orc_patrol_frete','orc_patrol_diaria','orc_rolo_dias','orc_rolo_frete','orc_rolo_diaria','orc_pipa_dias','orc_pipa_viag',
