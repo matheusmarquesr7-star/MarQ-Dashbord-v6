@@ -30,8 +30,9 @@ body{font-family:"Barlow",sans-serif;background:var(--grxl);color:var(--t);font-
 
 /* LOGIN */
 #loginScreen{position:fixed;inset:0;background:var(--bk);display:flex;align-items:center;
-  justify-content:center;z-index:9999;flex-direction:column;gap:0}
-.login-box{background:#fff;border-radius:16px;padding:40px 48px;width:360px;
+  justify-content:center;z-index:9999;flex-direction:column;gap:0;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px}
+.login-box{background:#fff;border-radius:16px;padding:40px 48px;width:360px;max-width:100%;
   box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center}
 .login-logo{height:44px;margin-bottom:24px}
 .login-title{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:800;
@@ -350,6 +351,12 @@ tbody td{padding:9px 12px;vertical-align:middle}
   .main { padding: 8px; }
   .g2, .g3, .g4 { gap: 8px; }
   #orcResumo > div:first-child { flex-direction: column !important; gap: 8px !important; }
+  /* Login mobile */
+  #loginScreen { align-items: flex-start; padding-top: 40px; }
+  .login-box { width: 100%; padding: 28px 24px; border-radius: 12px; }
+  .login-logo { height: 36px; margin-bottom: 16px; }
+  .login-title { font-size: 18px; }
+  .login-sub { margin-bottom: 20px; }
 }
 /* ────────────────────────────────────────────────────────────────── */
 </style>
