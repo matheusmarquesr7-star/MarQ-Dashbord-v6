@@ -695,6 +695,8 @@ tbody td{padding:9px 12px;vertical-align:middle}
   <div style="display:flex;flex-direction:column;gap:8px">
     <div><div class="kl" style="margin-bottom:3px">Nome do Cliente / Síndico</div>
       <input id="orc_cliente" class="orc-input" placeholder="Ex: João Lima"></div>
+    <div><div class="kl" style="margin-bottom:3px">Telefone do Cliente</div>
+      <input id="orc_telefone" class="orc-input" type="tel" placeholder="Ex: (61) 99999-0000"></div>
     <div id="blk_cond" style="display:none;flex-direction:column;gap:8px">
       <div><div class="kl" style="margin-bottom:3px">Nome do Condomínio</div>
         <input id="orc_condominio" class="orc-input" placeholder="Ex: Residencial 26 de Setembro"></div>
@@ -2054,7 +2056,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 function limparFormOrc() {
-  ['orc_cliente','orc_condominio','orc_local','orc_metragem','orc_moradores',
+  ['orc_cliente','orc_telefone','orc_condominio','orc_local','orc_metragem','orc_moradores',
    'orc_terra_obs','orc_outros_livre','orc_obs','orc_prazo_custom',
    'orc_mf_cordao','orc_mf_novacap','orc_sumi_qtd','orc_t400','orc_t600',
    'orc_t800','orc_caixas'].forEach(id=>{
@@ -2120,6 +2122,7 @@ function enviarParaSquad() {
     <strong>✅ Formulário enviado para o Squad!</strong><br><br>
     <strong>📋 Resumo:</strong><br>
     • Cliente: ${document.getElementById('orc_cliente').value}
+    ${document.getElementById('orc_telefone').value?`<br>• Telefone: ${document.getElementById('orc_telefone').value}`:''}
     ${tipoCliente==='condominio'?`<br>• Condomínio: ${document.getElementById('orc_condominio').value||'—'}`:''}
     ${tipoCliente==='condominio'?`<br>• Moradores: ${document.getElementById('orc_moradores').value||'—'}`:''}
     <br>• Local: ${document.getElementById('orc_local').value}
@@ -2538,6 +2541,7 @@ function enviarOrc(){
 <strong>✅ Resumo para o Squad</strong><br><br>
 <strong>👤 Preenchido por:</strong> ${orcResp}
 <br><strong>📋 Cliente:</strong> ${el('orc_cliente').value}
+${el('orc_telefone').value?`<br><strong>📞 Telefone:</strong> ${el('orc_telefone').value}`:''}
 ${orcTipo==='condominio'?`<br><strong>🏘️ Condomínio:</strong> ${el('orc_condominio').value||'—'} (${n('orc_moradores')} moradores)`:''}
 <br><strong>📍 Local:</strong> ${el('orc_local').value}
 <br><strong>📐 Metragem:</strong> ${m}m²
@@ -2554,7 +2558,7 @@ ${alertas.length?`<br><br><strong>⚠️ Alertas:</strong><br>${alertas.join('<b
 }
 
 function limparFormOrc(){
-  ['orc_cliente','orc_condominio','orc_local','orc_metragem','orc_moradores','orc_terra_desc',
+  ['orc_cliente','orc_telefone','orc_condominio','orc_local','orc_metragem','orc_moradores','orc_terra_desc',
    'orc_outros_desc','orc_outros_val','orc_obs','orc_prazo_custom','orc_mf_cordao','orc_mf_novacap',
    'orc_sumi_qtd','orc_t400','orc_t600','orc_t800','orc_caixas','orc_dissipadores','orc_mo_empreita','orc_cobrar',
    'orc_retro_dias','orc_retro_frete','orc_retro_diaria','orc_patrol_dias','orc_patrol_frete','orc_patrol_diaria','orc_rolo_dias','orc_rolo_frete','orc_rolo_diaria','orc_pipa_dias','orc_pipa_viag','orc_frete_mf_val',
