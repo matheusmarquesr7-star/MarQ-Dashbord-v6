@@ -724,6 +724,8 @@ tbody td{padding:9px 12px;vertical-align:middle}
     </div>
     <div><div class="kl" style="margin-bottom:3px">Local / Endereço</div>
       <input id="orc_local" class="orc-input" placeholder="Ex: 26 de Setembro — Brasília/DF"></div>
+    <div><div class="kl" style="margin-bottom:3px">Telefone / WhatsApp</div>
+      <input id="orc_telefone" class="orc-input" type="tel" placeholder="Ex: (61) 99999-9999"></div>
     <div>
       <div class="kl" style="margin-bottom:3px">Quem está preenchendo</div>
       <div style="display:flex;gap:8px">
@@ -2317,22 +2319,56 @@ function abrirOrcamento(id){
       const cont = el('orcHistConteudo');
       const STATUS_COR = {calculado:'var(--am)',aprovado:'var(--gn)',cancelado:'var(--rd)'};
       const cor = STATUS_COR[o.status] || 'var(--bd)';
+      const dt = new Date(o.criadoEm).toLocaleString('pt-BR',{dateStyle:'long',timeStyle:'short'});
+
+      // Extrair valor cobrado do markdown (linha com "Cobrar:" ou "Valor a cobrar:")
+      let valorCRM = '—';
+      if(o.orcamentoMd){
+        const m = o.orcamentoMd.match(/[Cc]obrar[:\s]+R?\$?\s*([\d.,]+)/);
+        if(m) valorCRM = 'R$ '+m[1];
+      }
+
       cont.innerHTML = `
         <div style="padding:16px">
           <button onclick="carregarOrcamentos()" style="padding:6px 14px;background:transparent;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--t3);cursor:pointer;margin-bottom:16px">← Voltar</button>
+
+          <!-- Cabeçalho -->
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
             <div style="font-size:16px;font-weight:800">${o.cliente}</div>
             <div style="font-size:12px;color:var(--t3)">${o.local}</div>
             <span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:${cor};color:#fff">${o.status}</span>
           </div>
-          <textarea id="orcEditMd" style="width:100%;min-height:320px;padding:12px;border:1.5px solid var(--bd);border-radius:8px;font-family:monospace;font-size:12px;outline:none;resize:vertical;box-sizing:border-box">${o.orcamentoMd||''}</textarea>
+
+          <!-- Dados CRM -->
+          <div style="background:var(--bll);border:1.5px solid var(--bl);border-radius:9px;padding:14px 16px;margin-bottom:16px">
+            <div style="font-size:11px;font-weight:800;color:var(--bl);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px">Dados para o CRM</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
+              <div><span style="color:var(--t3);font-size:11px">Cliente</span><br><strong>${o.cliente||'—'}</strong></div>
+              <div><span style="color:var(--t3);font-size:11px">Telefone</span><br><strong>${o.telefone||'—'}</strong></div>
+              <div><span style="color:var(--t3);font-size:11px">Local</span><br><strong>${o.local||'—'}</strong></div>
+              <div><span style="color:var(--t3);font-size:11px">Valor proposta</span><br><strong>${valorCRM}</strong></div>
+              <div><span style="color:var(--t3);font-size:11px">Data</span><br><strong>${dt}</strong></div>
+              <div><span style="color:var(--t3);font-size:11px">Status</span><br><strong>${o.status}</strong></div>
+            </div>
+            <button onclick="copiarDadosCRM('${o.id}')" style="margin-top:10px;padding:6px 14px;background:var(--bl);color:#fff;border:none;border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Copiar dados CRM</button>
+          </div>
+
+          <!-- Orcamento markdown -->
+          <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Orcamento (editavel)</div>
+          <textarea id="orcEditMd" style="width:100%;min-height:280px;padding:12px;border:1.5px solid var(--bd);border-radius:8px;font-family:monospace;font-size:12px;outline:none;resize:vertical;box-sizing:border-box">${o.orcamentoMd||''}</textarea>
+
+          <!-- Acoes -->
           <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
             <button onclick="salvarOrcamento('${o.id}')" style="padding:9px 20px;background:var(--bl);color:#fff;border:none;border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Salvar edicao</button>
             ${o.status==='calculado'?`<button onclick="aprovarOrcamento('${o.id}')" style="padding:9px 20px;background:var(--gn);color:#fff;border:none;border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Aprovar e gerar proposta</button>`:''}
             ${o.status!=='cancelado'?`<button onclick="cancelarOrcamento('${o.id}')" style="padding:9px 20px;background:transparent;border:1.5px solid var(--rd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;color:var(--rd);cursor:pointer">Cancelar</button>`:''}
+            <button onclick="removerOrcamento('${o.id}')" style="padding:9px 20px;background:transparent;border:1.5px solid var(--t3);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;color:var(--t3);cursor:pointer;margin-left:auto">Remover</button>
           </div>
           <div id="orcAcaoMsg" style="margin-top:10px;font-size:13px"></div>
         </div>`;
+
+      // Guarda dados do orcamento para copiar CRM
+      window._orcCRM = o;
     })
     .catch(() => alert('Erro ao carregar orçamento.'));
 }
@@ -2366,6 +2402,34 @@ function cancelarOrcamento(id){
   fetch(MARQ_SERVER+'/api/orcamento/'+id+'/cancelar', {method:'POST'})
     .then(() => { carregarOrcamentos(); })
     .catch(() => { msg.style.color='var(--rd)'; msg.textContent = 'Erro ao cancelar.'; });
+}
+
+function removerOrcamento(id){
+  if(!confirm('Remover permanentemente este orcamento? Esta ação não pode ser desfeita.')) return;
+  fetch(MARQ_SERVER+'/api/orcamento/'+id, {method:'DELETE'})
+    .then(() => { orcAba('historico'); })
+    .catch(() => alert('Erro ao remover.'));
+}
+
+function copiarDadosCRM(id){
+  const o = window._orcCRM;
+  if(!o) return;
+  let valorCRM = '—';
+  if(o.orcamentoMd){
+    const m = o.orcamentoMd.match(/[Cc]obrar[:\s]+R?\$?\s*([\d.,]+)/);
+    if(m) valorCRM = 'R$ '+m[1];
+  }
+  const dt = new Date(o.criadoEm).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+  const texto = `Cliente: ${o.cliente||'—'}
+Telefone: ${o.telefone||'—'}
+Local: ${o.local||'—'}
+Valor proposta: ${valorCRM}
+Data: ${dt}
+Status: ${o.status}`;
+  navigator.clipboard.writeText(texto).then(() => {
+    const msg = el('orcAcaoMsg');
+    if(msg){ msg.style.color='var(--gn)'; msg.textContent='Dados copiados para a area de transferencia.'; }
+  }).catch(() => alert('Nao foi possivel copiar automaticamente.'));
 }
 
 function recalc(){
@@ -2688,10 +2752,13 @@ function enviarOrc(){
 
   res.style.background='var(--gnl)';
   res.style.borderLeft='3px solid var(--gn)';
+  const obs = el('orc_obs').value.trim();
+  const tel = el('orc_telefone').value.trim();
   res.innerHTML=`
 <strong>Resumo para o Squad</strong><br><br>
 <strong>Preenchido por:</strong> ${orcResp}
 <br><strong>Cliente:</strong> ${el('orc_cliente').value}
+${tel?`<br><strong>Telefone:</strong> ${tel}`:''}
 ${orcTipo==='condominio'?`<br><strong>Condomínio:</strong> ${el('orc_condominio').value||'—'} (${n('orc_moradores')} moradores)`:''}
 <br><strong>Local:</strong> ${el('orc_local').value}
 <br><strong>Metragem:</strong> ${m}m²
@@ -2703,11 +2770,12 @@ ${chk('orc_tem_terra')?`<br><strong>Terraplanagem:</strong> ${eqsDetalhe.join(' 
 ${detalhamento}
 ${custoResumo}
 ${alertas.length?`<br><br><strong>Alertas:</strong><br>${alertas.join('<br>')}`:''}
+${obs?`<br><br><strong>Observações:</strong><br>${obs}`:''}
   `;
 }
 
 function limparFormOrc(){
-  ['orc_cliente','orc_condominio','orc_local','orc_metragem','orc_moradores','orc_terra_desc',
+  ['orc_cliente','orc_condominio','orc_local','orc_telefone','orc_metragem','orc_moradores','orc_terra_desc',
    'orc_outros_desc','orc_outros_val','orc_obs','orc_prazo_custom','orc_mf_cordao','orc_mf_novacap',
    'orc_sumi_qtd','orc_t400','orc_t600','orc_t800','orc_caixas','orc_dissipadores','orc_mo_empreita','orc_cobrar',
    'orc_retro_dias','orc_retro_frete','orc_retro_diaria','orc_patrol_dias','orc_patrol_frete','orc_patrol_diaria','orc_rolo_dias','orc_rolo_frete','orc_rolo_diaria','orc_pipa_dias','orc_pipa_viag','orc_frete_mf_val',
