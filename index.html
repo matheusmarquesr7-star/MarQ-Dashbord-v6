@@ -619,6 +619,14 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
 <!-- ORÇAMENTOS -->
 <section id="orc" class="sec">
+<!-- Tabs -->
+<div style="display:flex;border-bottom:1.5px solid var(--bd);margin-bottom:16px">
+  <button id="orcTabNovo" onclick="orcAba('novo')" style="padding:10px 20px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;border:none;background:transparent;cursor:pointer;border-bottom:2.5px solid var(--am);color:var(--t);text-transform:uppercase;letter-spacing:.5px;margin-bottom:-1.5px">Novo Orcamento</button>
+  <button id="orcTabHist" onclick="orcAba('historico')" style="padding:10px 20px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;border:none;background:transparent;cursor:pointer;border-bottom:2.5px solid transparent;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:-1.5px">Orcamentos Gerados</button>
+</div>
+
+<!-- ABA: NOVO ORCAMENTO -->
+<div id="orcPainelNovo">
 <div class="sh">
   <div><div class="st">Formulário de <span>Visita</span></div>
   <div class="sd">Custos previsíveis calculados automaticamente · Willian e Iago preenchem os demais</div></div>
@@ -630,12 +638,15 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
   <!-- Markup -->
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup:</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup:</div>
+      <div id="orc_markup_sugerido" style="font-size:10px;color:var(--am);font-weight:700;display:none">sugerido</div>
+    </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap">
       <button class="orc-markup-btn" id="mk20" onclick="setMarkup(20,this)">20%</button>
-        <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
-      <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
       <button class="orc-markup-btn" id="mk25" onclick="setMarkup(25,this)">25%</button>
+      <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
+      <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
       <button class="orc-markup-btn" id="mk40" onclick="setMarkup(40,this)">40%</button>
       <button class="orc-markup-btn" id="mk45" onclick="setMarkup(45,this)">45%</button>
     </div>
@@ -660,7 +671,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
     <!-- Card PRENSADO (quando ambos selecionados) -->
     <div id="cardPrensado" style="display:none;flex:1;min-width:220px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px 16px">
-      <div style="font-size:10px;color:var(--am);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">🔶 Opção Prensado</div>
+      <div style="font-size:10px;color:var(--am);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Opção Prensado</div>
       <div id="custoPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
       <div style="display:flex;gap:16px;margin-top:6px">
         <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
@@ -670,7 +681,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
     <!-- Card USINADO (quando ambos selecionados) -->
     <div id="cardUsinado" style="display:none;flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px 16px">
-      <div style="font-size:10px;color:#ccc;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">⬜ Opção Usinado</div>
+      <div style="font-size:10px;color:#ccc;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Opção Usinado</div>
       <div id="custoUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
       <div style="display:flex;gap:16px;margin-top:6px">
         <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
@@ -687,7 +698,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 <div style="display:flex;flex-direction:column;gap:14px">
 
 <!-- Cliente -->
-<div class="cc2"><div class="ch"><div class="ct">👤 Cliente</div></div><div class="cb">
+<div class="cc2"><div class="ch"><div class="ct">Cliente</div></div><div class="cb">
   <div style="display:flex;gap:8px;margin-bottom:12px">
     <button id="btnPart" onclick="setTipo('particular',this)" style="flex:1;padding:9px;border-radius:7px;border:2px solid var(--am);background:var(--am);color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:12px;cursor:pointer">Particular</button>
     <button id="btnCond" onclick="setTipo('condominio',this)" style="flex:1;padding:9px;border-radius:7px;border:2px solid var(--bd);background:#fff;color:var(--t2);font-family:'Barlow',sans-serif;font-weight:700;font-size:12px;cursor:pointer">Condomínio</button>
@@ -726,7 +737,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div></div>
 
 <!-- Bloquete -->
-<div class="cc2"><div class="ch"><div class="ct">🏗️ Bloquete</div><div class="cs" id="orc_bloquete_custo_label" style="color:var(--gn);font-weight:700"></div></div><div class="cb">
+<div class="cc2"><div class="ch"><div class="ct">Bloquete</div><div class="cs" id="orc_bloquete_custo_label" style="color:var(--gn);font-weight:700"></div></div><div class="cb">
   <div style="display:flex;flex-direction:column;gap:10px">
     <div><div class="kl" style="margin-bottom:3px">Metragem (m²)</div>
       <input id="orc_metragem" class="orc-input" type="number" placeholder="Ex: 1150" oninput="recalc()"></div>
@@ -751,11 +762,11 @@ tbody td{padding:9px 12px;vertical-align:middle}
     </div>
     <!-- Custos automáticos bloquete -->
     <div id="orc_bloquete_breakdown" style="display:none;background:var(--gnl);border-radius:7px;padding:10px 12px;font-size:12px">
-      <div style="font-weight:700;color:var(--gn);margin-bottom:6px">✅ Custos automáticos calculados:</div>
+      <div style="font-weight:700;color:var(--gn);margin-bottom:6px">Custos automáticos calculados:</div>
       <div id="orc_bloquete_linhas"></div>
     </div>
     <div id="orc_mao_obra_empreita" style="display:none">
-      <div class="strip" style="margin-bottom:6px;font-size:11px">⚠️ Obra &lt;200m² — MO por empreita. Informe o valor combinado:</div>
+      <div class="strip" style="margin-bottom:6px;font-size:11px">Obra &lt;200m² — MO por empreita. Informe o valor combinado:</div>
       <div style="display:flex;align-items:center;gap:8px">
         <div class="kl" style="margin-bottom:0;white-space:nowrap">MO Empreita R$</div>
         <input id="orc_mo_empreita" class="orc-input" type="number" placeholder="Ex: 2500" oninput="recalc()" style="flex:1">
@@ -766,7 +777,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
 <!-- Meio-fio -->
 <div class="cc2"><div class="ch">
-  <div><div class="ct">〰️ Meio-fio</div><div class="cs" id="orc_mf_custo_label" style="color:var(--gn);font-weight:700"></div></div>
+  <div><div class="ct">Meio-fio</div><div class="cs" id="orc_mf_custo_label" style="color:var(--gn);font-weight:700"></div></div>
   <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
     <input type="checkbox" id="orc_tem_mf" onchange="toggleMF()" style="accent-color:var(--am)"> Tem meio-fio
   </label>
@@ -794,7 +805,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div></div>
 
 <!-- Drenagem -->
-<div class="cc2"><div class="ch"><div><div class="ct">💧 Drenagem</div><div class="cs" id="orc_dren_custo_label" style="color:var(--gn);font-weight:700"></div></div></div><div class="cb">
+<div class="cc2"><div class="ch"><div><div class="ct">Drenagem</div><div class="cs" id="orc_dren_custo_label" style="color:var(--gn);font-weight:700"></div></div></div><div class="cb">
   <div style="display:flex;gap:6px;margin-bottom:12px">
     <button class="orc-drain-btn on" id="drainNao" onclick="setDren('nao',this)">Não precisa</button>
     <button class="orc-drain-btn" id="drainSumi" onclick="setDren('sumidouros',this)">Sumidouros</button>
@@ -857,14 +868,14 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
 <!-- Terraplanagem -->
 <div class="cc2"><div class="ch">
-  <div><div class="ct">🚜 Terraplanagem</div><div class="cs" id="orc_terra_custo_label" style="color:var(--gn);font-weight:700"></div></div>
+  <div><div class="ct">Terraplanagem</div><div class="cs" id="orc_terra_custo_label" style="color:var(--gn);font-weight:700"></div></div>
   <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
     <input type="checkbox" id="orc_tem_terra" onchange="toggleTerra()" style="accent-color:var(--am)"> Tem terraplanagem
   </label>
 </div><div class="cb">
   <div id="blk_terra_off" style="color:var(--t3);font-size:12px">Marque se a obra precisa de terraplanagem</div>
   <div id="blk_terra" style="display:none;flex-direction:column;gap:10px">
-    <div class="strip" style="font-size:11px;margin-bottom:0">⚠️ Terraplanagem: preço variável — Willian/Iago inserem o custo real após avaliação</div>
+    <div class="strip" style="font-size:11px;margin-bottom:0">Terraplanagem: preço variável — Willian/Iago inserem o custo real após avaliação</div>
     <!-- Equipamentos com diárias -->
     <div>
       <div class="kl" style="margin-bottom:6px">Equipamentos e Quantidade</div>
@@ -931,7 +942,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div></div>
 
 <!-- Outros Materiais -->
-<div class="cc2"><div class="ch"><div><div class="ct">🧰 Outros Materiais</div><div class="cs" id="orc_outros_custo_label" style="color:var(--gn);font-weight:700"></div></div></div><div class="cb">
+<div class="cc2"><div class="ch"><div><div class="ct">Outros Materiais</div><div class="cs" id="orc_outros_custo_label" style="color:var(--gn);font-weight:700"></div></div></div><div class="cb">
   <div style="display:flex;flex-direction:column;gap:8px">
 
     <!-- Placa vibratória -->
@@ -1022,17 +1033,17 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--grxl);border-radius:7px">
       <div style="display:flex;align-items:center;gap:8px">
         <input type="checkbox" id="ck_ramal" onchange="toggleOutro('ramal',this)" style="accent-color:var(--am);width:15px;height:15px">
-        <div><div style="font-size:12px;font-weight:600">Ramais — Conduítes (energia/internet)</div><div style="font-size:10px;color:var(--t3)">R$35/m²</div></div>
+        <div><div style="font-size:12px;font-weight:600">Ramais — Conduítes (energia/internet)</div><div style="font-size:10px;color:var(--t3)">R$35/ml</div></div>
       </div>
       <div id="blk_ramal" style="display:none;align-items:center;gap:6px">
-        <input type="number" id="orc_ramal_m2" placeholder="m²" oninput="recalc()" style="width:65px;padding:5px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
+        <input type="number" id="orc_ramal_m2" placeholder="ml" oninput="recalc()" style="width:65px;padding:5px 8px;border:1.5px solid var(--bd);border-radius:6px;font-family:'Barlow',sans-serif;font-size:12px;outline:none">
         <span id="orc_ramal_calc" style="font-size:11px;color:var(--gn);font-weight:700;min-width:70px;text-align:right"></span>
       </div>
     </div>
 
     <!-- Outros livres -->
     <div style="padding:8px 10px;background:var(--grxl);border-radius:7px">
-      <div style="font-size:12px;font-weight:600;margin-bottom:6px">➕ Outros não listados</div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">Outros não listados</div>
       <div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center">
         <input id="orc_outros_desc" class="orc-input" placeholder="Descrição do item" style="font-size:12px">
         <div style="display:flex;align-items:center;gap:4px">
@@ -1045,7 +1056,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div></div>
 
 <!-- Prazo -->
-<div class="cc2"><div class="ch"><div class="ct">📅 Prazo Estimado</div></div><div class="cb">
+<div class="cc2"><div class="ch"><div class="ct">Prazo Estimado</div></div><div class="cb">
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
     <button class="orc-prazo-btn" id="prazo10" onclick="setPrazo(10,this)">10 dias</button>
     <button class="orc-prazo-btn" id="prazo15" onclick="setPrazo(15,this)">15 dias</button>
@@ -1058,7 +1069,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div></div>
 
 <!-- Observações -->
-<div class="cc2"><div class="ch"><div class="ct">📝 Observações</div></div><div class="cb">
+<div class="cc2"><div class="ch"><div class="ct">Observações</div></div><div class="cb">
   <textarea id="orc_obs" style="width:100%;padding:10px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;outline:none;resize:vertical;min-height:80px;box-sizing:border-box" placeholder="Dificuldades de acesso, condições do terreno, informações do síndico, alertas do campo..."></textarea>
 </div></div>
 
@@ -1072,9 +1083,16 @@ tbody td{padding:9px 12px;vertical-align:middle}
       <div style="font-size:14px;font-weight:700">Pronto para enviar ao Squad?</div>
       <div style="font-size:12px;color:var(--t3);margin-top:2px">O agente revisor analisa os dados e gera a proposta no Google Slides</div>
     </div>
-    <button onclick="enviarOrc()" style="padding:12px 32px;background:var(--am);color:#fff;border:none;border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;cursor:pointer">🤖 Enviar para o Squad</button>
+    <button onclick="enviarOrc()" style="padding:12px 32px;background:var(--am);color:#fff;border:none;border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Enviar para o Squad</button>
   </div>
   <div id="orc_resultado" style="display:none;margin-top:16px;padding:14px;border-radius:8px;font-size:13px"></div>
+</div>
+
+</div><!-- fim orcPainelNovo -->
+
+<!-- ABA: ORCAMENTOS GERADOS -->
+<div id="orcPainelHist" style="display:none">
+  <div id="orcHistConteudo" style="min-height:120px"></div>
 </div>
 
 </section>
@@ -2228,10 +2246,146 @@ function setPrazo(d,btn){
   el('orc_prazo_custom').value='';
 }
 
+// ── ABAS ORCAMENTOS ──
+const MARQ_SERVER = 'https://marq-squads-production.up.railway.app';
+
+function orcAba(aba){
+  const novo = el('orcPainelNovo');
+  const hist = el('orcPainelHist');
+  const tabNovo = el('orcTabNovo');
+  const tabHist = el('orcTabHist');
+  if(aba === 'novo'){
+    novo.style.display = '';
+    hist.style.display = 'none';
+    tabNovo.style.borderBottomColor = 'var(--am)';
+    tabNovo.style.color = 'var(--t)';
+    tabHist.style.borderBottomColor = 'transparent';
+    tabHist.style.color = 'var(--t3)';
+  } else {
+    novo.style.display = 'none';
+    hist.style.display = '';
+    tabNovo.style.borderBottomColor = 'transparent';
+    tabNovo.style.color = 'var(--t3)';
+    tabHist.style.borderBottomColor = 'var(--am)';
+    tabHist.style.color = 'var(--t)';
+    carregarOrcamentos();
+  }
+}
+
+function carregarOrcamentos(){
+  const cont = el('orcHistConteudo');
+  cont.innerHTML = '<div style="padding:24px;color:var(--t3);font-size:13px">Carregando...</div>';
+  fetch(MARQ_SERVER+'/api/orcamentos')
+    .then(r => r.json())
+    .then(lista => {
+      if(!lista.length){
+        cont.innerHTML = '<div style="padding:24px;color:var(--t3);font-size:13px">Nenhum orcamento gerado ainda.</div>';
+        return;
+      }
+      const STATUS_COR = {calculado:'var(--am)',aprovado:'var(--gn)',cancelado:'var(--rd)'};
+      const linhas = lista.map(o => {
+        const dt = new Date(o.criadoEm).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+        const cor = STATUS_COR[o.status] || 'var(--bd)';
+        return `<tr onclick="abrirOrcamento('${o.id}')" style="cursor:pointer;border-bottom:1px solid var(--bd)" onmouseover="this.style.background='var(--grl)'" onmouseout="this.style.background='transparent'">
+          <td style="padding:9px 12px;font-size:13px">${dt}</td>
+          <td style="padding:9px 12px;font-size:13px;font-weight:600">${o.cliente}</td>
+          <td style="padding:9px 12px;font-size:13px;color:var(--t3)">${o.local}</td>
+          <td style="padding:9px 12px">
+            <span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:${cor};color:#fff">${o.status}</span>
+          </td>
+        </tr>`;
+      }).join('');
+      cont.innerHTML = `<table style="width:100%;border-collapse:collapse">
+        <thead><tr style="background:var(--grl)">
+          <th style="text-align:left;padding:8px 12px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)">Data</th>
+          <th style="text-align:left;padding:8px 12px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)">Cliente</th>
+          <th style="text-align:left;padding:8px 12px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)">Local</th>
+          <th style="text-align:left;padding:8px 12px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)">Status</th>
+        </tr></thead>
+        <tbody>${linhas}</tbody>
+      </table>`;
+    })
+    .catch(() => {
+      cont.innerHTML = '<div style="padding:24px;color:var(--rd);font-size:13px">Erro ao carregar orcamentos. Verifique a conexao com o servidor.</div>';
+    });
+}
+
+function abrirOrcamento(id){
+  fetch(MARQ_SERVER+'/api/orcamento/'+id)
+    .then(r => r.json())
+    .then(o => {
+      const cont = el('orcHistConteudo');
+      const STATUS_COR = {calculado:'var(--am)',aprovado:'var(--gn)',cancelado:'var(--rd)'};
+      const cor = STATUS_COR[o.status] || 'var(--bd)';
+      cont.innerHTML = `
+        <div style="padding:16px">
+          <button onclick="carregarOrcamentos()" style="padding:6px 14px;background:transparent;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--t3);cursor:pointer;margin-bottom:16px">← Voltar</button>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+            <div style="font-size:16px;font-weight:800">${o.cliente}</div>
+            <div style="font-size:12px;color:var(--t3)">${o.local}</div>
+            <span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:${cor};color:#fff">${o.status}</span>
+          </div>
+          <textarea id="orcEditMd" style="width:100%;min-height:320px;padding:12px;border:1.5px solid var(--bd);border-radius:8px;font-family:monospace;font-size:12px;outline:none;resize:vertical;box-sizing:border-box">${o.orcamentoMd||''}</textarea>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button onclick="salvarOrcamento('${o.id}')" style="padding:9px 20px;background:var(--bl);color:#fff;border:none;border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Salvar edicao</button>
+            ${o.status==='calculado'?`<button onclick="aprovarOrcamento('${o.id}')" style="padding:9px 20px;background:var(--gn);color:#fff;border:none;border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Aprovar e gerar proposta</button>`:''}
+            ${o.status!=='cancelado'?`<button onclick="cancelarOrcamento('${o.id}')" style="padding:9px 20px;background:transparent;border:1.5px solid var(--rd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;color:var(--rd);cursor:pointer">Cancelar</button>`:''}
+          </div>
+          <div id="orcAcaoMsg" style="margin-top:10px;font-size:13px"></div>
+        </div>`;
+    })
+    .catch(() => alert('Erro ao carregar orçamento.'));
+}
+
+function salvarOrcamento(id){
+  const md = document.getElementById('orcEditMd').value;
+  const msg = el('orcAcaoMsg');
+  msg.textContent = 'Salvando...';
+  fetch(MARQ_SERVER+'/api/orcamento/'+id, {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({orcamentoMd:md})})
+    .then(r => r.json())
+    .then(() => { msg.style.color='var(--gn)'; msg.textContent = 'Salvo.'; })
+    .catch(() => { msg.style.color='var(--rd)'; msg.textContent = 'Erro ao salvar.'; });
+}
+
+function aprovarOrcamento(id){
+  const msg = el('orcAcaoMsg');
+  msg.textContent = 'Gerando proposta...';
+  fetch(MARQ_SERVER+'/api/orcamento/'+id+'/aprovar', {method:'POST'})
+    .then(r => r.json())
+    .then(res => {
+      msg.style.color='var(--gn)';
+      msg.innerHTML = 'Proposta gerada! ' + (res.slideLink ? `<a href="${res.slideLink}" target="_blank" style="color:var(--bl)">Abrir Slides</a>` : '');
+      carregarOrcamentos();
+    })
+    .catch(() => { msg.style.color='var(--rd)'; msg.textContent = 'Erro ao aprovar.'; });
+}
+
+function cancelarOrcamento(id){
+  if(!confirm('Cancelar este orcamento?')) return;
+  const msg = el('orcAcaoMsg');
+  fetch(MARQ_SERVER+'/api/orcamento/'+id+'/cancelar', {method:'POST'})
+    .then(() => { carregarOrcamentos(); })
+    .catch(() => { msg.style.color='var(--rd)'; msg.textContent = 'Erro ao cancelar.'; });
+}
+
 function recalc(){
   const m = n('orc_metragem');
   const prensado = chk('orc_prensado');
   const usinado  = chk('orc_usinado');
+
+  // ── MARKUP SUGERIDO por porte ──
+  if(m > 0){
+    const mkSug = m < 600 ? 35 : m <= 2000 ? 30 : 25;
+    const sug = el('orc_markup_sugerido');
+    if(sug){ sug.textContent = `sugerido: ${mkSug}%`; sug.style.display='inline'; }
+    document.querySelectorAll('.orc-markup-btn').forEach(b => b.style.outline='');
+    const btnSug = el('mk'+mkSug);
+    if(btnSug) btnSug.style.outline = '2px solid var(--am)';
+  } else {
+    const sug = el('orc_markup_sugerido');
+    if(sug) sug.style.display='none';
+    document.querySelectorAll('.orc-markup-btn').forEach(b => b.style.outline='');
+  }
   let linhas = [];
 
   // ── BLOQUETE — separado por tipo, nunca somado ──
@@ -2278,7 +2432,7 @@ function recalc(){
     let mfLinhas = [];
     if(cordao)  mfLinhas.push(`Cordão (${n('orc_mf_cordao')} un): ${fmt(cordao)}`);
     if(novacap) mfLinhas.push(`NOVACAP (${n('orc_mf_novacap')} un): ${fmt(novacap)}`);
-    el('orc_mf_breakdown').innerHTML = mfLinhas.length ? '✅ '+mfLinhas.join(' | ')+' = <strong>'+fmt(custoMF)+'</strong>' : '';
+    el('orc_mf_breakdown').innerHTML = mfLinhas.length ? mfLinhas.join(' | ')+' = <strong>'+fmt(custoMF)+'</strong>' : '';
     el('orc_mf_custo_label').textContent = custoMF > 0 ? fmt(custoMF) : '';
   } else {
     el('orc_mf_custo_label').textContent = '';
@@ -2310,7 +2464,7 @@ function recalc(){
     if(chk('ck_cacamba'))  custoTerra += n('orc_cacamba_qtd')  * CACAMBA;
     el('orc_terra_custo_label').textContent = custoTerra > 0 ? fmt(custoTerra) : 'preencha os equipamentos';
     el('orc_terra_breakdown').style.display = custoTerra>0 ? 'block' : 'none';
-    el('orc_terra_breakdown').textContent   = custoTerra>0 ? '✅ Total terraplanagem: '+fmt(custoTerra) : '';
+    el('orc_terra_breakdown').textContent   = custoTerra>0 ? 'Total terraplanagem: '+fmt(custoTerra) : '';
   } else {
     el('orc_terra_custo_label').textContent = '';
   }
@@ -2322,7 +2476,7 @@ function recalc(){
     custoDren = n('orc_sumi_qtd') * SUMI;
     const sc = el('orc_sumi_calc');
     sc.style.display = custoDren>0?'block':'none';
-    sc.textContent   = custoDren>0 ? '✅ '+n('orc_sumi_qtd')+' sumidouros = '+fmt(custoDren) : '';
+    sc.textContent   = custoDren>0 ? n('orc_sumi_qtd')+' sumidouros = '+fmt(custoDren) : '';
     el('orc_dren_custo_label').textContent = custoDren>0 ? fmt(custoDren) : '';
   } else if(orcDren === 'tubos'){
     const c400=n('orc_t400')*TUBO400, c600=n('orc_t600')*TUBO600,
@@ -2337,7 +2491,7 @@ function recalc(){
     if(cDis) tl.push(`Dissipadores(${n('orc_dissipadores')}un): ${fmt(cDis)}`);
     const tc=el('orc_tubos_calc');
     tc.style.display = custoDren>0?'block':'none';
-    tc.innerHTML     = custoDren>0 ? '✅ '+tl.join(' | ')+' = <strong>'+fmt(custoDren)+'</strong>' : '';
+    tc.innerHTML     = custoDren>0 ? tl.join(' | ')+' = <strong>'+fmt(custoDren)+'</strong>' : '';
     el('orc_dren_custo_label').textContent = custoDren>0 ? fmt(custoDren) : '';
   } else {
     el('orc_dren_custo_label').textContent = '';
@@ -2431,7 +2585,7 @@ function enviarOrc(){
   if(erros.length){
     res.style.background='var(--rdl)';
     res.style.borderLeft='3px solid var(--rd)';
-    res.innerHTML='<strong>⚠️ Preencha antes de enviar:</strong><br>• '+erros.join('<br>• ');
+    res.innerHTML='<strong>Preencha antes de enviar:</strong><br>• '+erros.join('<br>• ');
     return;
   }
 
@@ -2447,11 +2601,11 @@ function enviarOrc(){
   const alertas=[];
   if(chk('orc_usinado')){
     const viag=Math.ceil(m/120);
-    alertas.push(`🔴 Frete usinado: ${viag} viagens = ${fmt(viag*800)}`);
+    alertas.push(`Frete usinado: ${viag} viagens = ${fmt(viag*800)}`);
   }
-  if(m>500&&!chk('orc_tem_terra')) alertas.push('🟡 Terraplanagem não informada — confirmar se não precisa');
-  if(m>500&&orcDren==='nao') alertas.push('🟡 Drenagem não avaliada — verificar no campo');
-  if(m<200) alertas.push('🟡 Obra <200m² — MO por empreita');
+  if(m>500&&!chk('orc_tem_terra')) alertas.push('Terraplanagem não informada — confirmar se não precisa');
+  if(m>500&&orcDren==='nao') alertas.push('Drenagem não avaliada — verificar no campo');
+  if(m<200) alertas.push('Obra <200m² — MO por empreita');
 
   const custo = parseFloat(el('orcCustoTotal').textContent.replace(/[R$\s.]/g,'').replace(',','.'));
   const venda  = n('orc_cobrar')||parseFloat(el('orcPrecoVenda').textContent.replace(/[R$\s.]/g,'').replace(',','.'));
@@ -2515,13 +2669,13 @@ function enviarOrc(){
   const detOut  = cOutros>0? `<br>&nbsp;&nbsp;• Outros materiais: ${fmt(cOutros)}` : '';
 
   const custoResumo = ambos
-    ? `<br><strong>💰 Custo estimado:</strong>
-       <br>&nbsp;&nbsp;🔶 Prensado: ${fmt(cTotalP)} → <strong>Cobrar: ${fmt(vendaP)}</strong> (${orcMarkup}%)
-       <br>&nbsp;&nbsp;⬜ Usinado: ${fmt(cTotalU)} → <strong>Cobrar: ${fmt(vendaU)}</strong> (${orcMarkup}%)`
-    : `<br><strong>💰 Custo estimado: ${fmt(cRef)}</strong>
-       <br><strong>💲 Valor a cobrar: ${fmt(vendaRef)}</strong> (markup ${orcMarkup}%)`;
+    ? `<br><strong>Custo estimado:</strong>
+       <br>&nbsp;&nbsp;Prensado: ${fmt(cTotalP)} → <strong>Cobrar: ${fmt(vendaP)}</strong> (${orcMarkup}%)
+       <br>&nbsp;&nbsp;Usinado: ${fmt(cTotalU)} → <strong>Cobrar: ${fmt(vendaU)}</strong> (${orcMarkup}%)`
+    : `<br><strong>Custo estimado: ${fmt(cRef)}</strong>
+       <br><strong>Valor a cobrar: ${fmt(vendaRef)}</strong> (markup ${orcMarkup}%)`;
 
-  const detalhamento = `<br><br><strong>📊 Detalhamento de custos:</strong>${detP}${detU}${detMF}${detTerra}${detDren}${detOut}`;
+  const detalhamento = `<br><br><strong>Detalhamento de custos:</strong>${detP}${detU}${detMF}${detTerra}${detDren}${detOut}`;
 
   // Terraplanagem detalhada
   const eqsDetalhe = [];
@@ -2535,21 +2689,20 @@ function enviarOrc(){
   res.style.background='var(--gnl)';
   res.style.borderLeft='3px solid var(--gn)';
   res.innerHTML=`
-<strong>✅ Resumo para o Squad</strong><br><br>
-<strong>👤 Preenchido por:</strong> ${orcResp}
-<br><strong>📋 Cliente:</strong> ${el('orc_cliente').value}
-${orcTipo==='condominio'?`<br><strong>🏘️ Condomínio:</strong> ${el('orc_condominio').value||'—'} (${n('orc_moradores')} moradores)`:''}
-<br><strong>📍 Local:</strong> ${el('orc_local').value}
-<br><strong>📐 Metragem:</strong> ${m}m²
-<br><strong>🏗️ Bloquete:</strong> ${[chk('orc_prensado')?'Prensado':null,chk('orc_usinado')?'Usinado':null].filter(Boolean).join(' + ')}
-${chk('orc_tem_mf')?`<br><strong>〰️ Meio-fio:</strong> Cordão: ${n('orc_mf_cordao')} un (${fmt(n('orc_mf_cordao')*MF_CORDAO)}) | NOVACAP: ${n('orc_mf_novacap')} un (${fmt(n('orc_mf_novacap')*MF_NOVACAP)})`:''}
-${chk('orc_tem_terra')?`<br><strong>🚜 Terraplanagem:</strong> ${eqsDetalhe.join(' | ')||'—'} = ${fmt(cTerra)}`:''}
-<br><strong>💧 Drenagem:</strong> ${orcDren==='nao'?'Não precisa':orcDren==='sumidouros'?`${n('orc_sumi_qtd')} sumidouros = ${fmt(cDren)}`:`Tubos 400(${n('orc_t400')}) 600(${n('orc_t600')}) 800(${n('orc_t800')}) + ${n('orc_caixas')} caixas = ${fmt(cDren)}`}
-<br><strong>📅 Prazo:</strong> ${prazo||'—'} dias úteis
+<strong>Resumo para o Squad</strong><br><br>
+<strong>Preenchido por:</strong> ${orcResp}
+<br><strong>Cliente:</strong> ${el('orc_cliente').value}
+${orcTipo==='condominio'?`<br><strong>Condomínio:</strong> ${el('orc_condominio').value||'—'} (${n('orc_moradores')} moradores)`:''}
+<br><strong>Local:</strong> ${el('orc_local').value}
+<br><strong>Metragem:</strong> ${m}m²
+<br><strong>Bloquete:</strong> ${[chk('orc_prensado')?'Prensado':null,chk('orc_usinado')?'Usinado':null].filter(Boolean).join(' + ')}
+${chk('orc_tem_mf')?`<br><strong>Meio-fio:</strong> Cordão: ${n('orc_mf_cordao')} un (${fmt(n('orc_mf_cordao')*MF_CORDAO)}) | NOVACAP: ${n('orc_mf_novacap')} un (${fmt(n('orc_mf_novacap')*MF_NOVACAP)})`:''}
+${chk('orc_tem_terra')?`<br><strong>Terraplanagem:</strong> ${eqsDetalhe.join(' | ')||'—'} = ${fmt(cTerra)}`:''}
+<br><strong>Drenagem:</strong> ${orcDren==='nao'?'Não precisa':orcDren==='sumidouros'?`${n('orc_sumi_qtd')} sumidouros = ${fmt(cDren)}`:`Tubos 400(${n('orc_t400')}) 600(${n('orc_t600')}) 800(${n('orc_t800')}) + ${n('orc_caixas')} caixas = ${fmt(cDren)}`}
+<br><strong>Prazo:</strong> ${prazo||'—'} dias úteis
 ${detalhamento}
 ${custoResumo}
-${alertas.length?`<br><br><strong>⚠️ Alertas:</strong><br>${alertas.join('<br>')}`:''} 
-<br><br><em style="font-size:11px;color:var(--t3)">Cole este resumo no Claude Code → Squad revisa → Gera proposta no Google Slides</em>
+${alertas.length?`<br><br><strong>Alertas:</strong><br>${alertas.join('<br>')}`:''}
   `;
 }
 
@@ -2577,7 +2730,9 @@ function limparFormOrc(){
   document.querySelectorAll('.orc-prazo-btn').forEach(b=>b.classList.remove('on'));
   orcPrazo=null; orcMarkup=35;
   document.querySelectorAll('.orc-markup-btn').forEach(b=>b.classList.remove('on'));
-  el('mk35').classList.add('on'); orcMarkup=35; if(el('mk20')) el('mk20').classList.remove('on');
+  el('mk35').classList.add('on'); orcMarkup=35;
+  document.querySelectorAll('.orc-markup-btn').forEach(b=>b.style.outline='');
+  const sug=el('orc_markup_sugerido'); if(sug) sug.style.display='none';
   el('orc_resultado').style.display='none';
   recalc();
 }
