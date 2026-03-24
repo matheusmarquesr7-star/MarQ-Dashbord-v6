@@ -589,32 +589,6 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div class="sd">Progresso em relação às metas definidas</div></div></div>
   <div class="cr c3" id="metasKpi"></div>
   <div class="g2" id="metasCards"></div>
-  <div class="cc2">
-    <div class="ch"><div><div class="ct">Definir Metas</div><div class="cs">Editável — salva no browser</div></div></div>
-    <div class="cb">
-      <div class="cr c3" style="margin-bottom:0">
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Meta Faturamento Anual (R$)</div>
-          <input id="metaFatAnual" type="number" placeholder="ex: 2000000"
-            style="width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:14px;outline:none">
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Meta Lucro Anual (R$)</div>
-          <input id="metaLucroAnual" type="number" placeholder="ex: 400000"
-            style="width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:14px;outline:none">
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Meta Faturamento Mensal (R$)</div>
-          <input id="metaFatMensal" type="number" placeholder="ex: 150000"
-            style="width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:14px;outline:none">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button onclick="saveMetas()" style="padding:9px 24px;background:var(--am);color:#fff;border:none;border-radius:7px;font-family:'Barlow',sans-serif;font-weight:700;cursor:pointer">Salvar Metas</button>
-        <div id="metasSaved" style="font-size:12px;color:var(--gn);align-self:center;display:none">✓ Salvo!</div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- ORÇAMENTOS -->
@@ -1864,21 +1838,11 @@ function exibirEventosCRM() {
 }
 
 // ── METAS ──
+// Metas fixas 2026 — sazonalidade Brasília (seco=alta, chuva=baixa)
+const METAS_MENSAIS=[100000,100000,100000,233000,233000,234000,233000,233000,234000,100000,100000,100000];
 function loadMetas(){
-  const saved=JSON.parse(localStorage.getItem("marq_metas")||"{}");
-  if(saved.fatAnual)document.getElementById("metaFatAnual").value=saved.fatAnual;
-  if(saved.lucroAnual)document.getElementById("metaLucroAnual").value=saved.lucroAnual;
-  if(saved.fatMensal)document.getElementById("metaFatMensal").value=saved.fatMensal;
-  return saved;
-}
-function saveMetas(){
-  const metas={fatAnual:+document.getElementById("metaFatAnual").value,
-                lucroAnual:+document.getElementById("metaLucroAnual").value,
-                fatMensal:+document.getElementById("metaFatMensal").value};
-  localStorage.setItem("marq_metas",JSON.stringify(metas));
-  document.getElementById("metasSaved").style.display="block";
-  setTimeout(()=>document.getElementById("metasSaved").style.display="none",2000);
-  renderMetas();
+  const mesAtualIdx=new Date().getMonth();
+  return{fatAnual:2000000,lucroAnual:400000,fatMensal:METAS_MENSAIS[mesAtualIdx]};
 }
 function renderMetas(){
   const metas=loadMetas();
@@ -2806,7 +2770,6 @@ function limparFormOrc(){
 }
 
 // ── BOOT ──
-loadMetas();
 renderAppsScript();
 // Não carrega dados antes do login — aguarda doLogin()
 </script>
