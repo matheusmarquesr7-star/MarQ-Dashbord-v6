@@ -633,65 +633,6 @@ tbody td{padding:9px 12px;vertical-align:middle}
   <button onclick="limparFormOrc()" style="padding:6px 16px;background:transparent;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--t3);cursor:pointer">↺ Limpar</button>
 </div>
 
-<!-- CARD DE CUSTO TOTAL FLUTUANTE -->
-<div id="orcResumo" style="background:var(--bk);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;color:#fff;display:flex;flex-direction:column;gap:12px">
-
-  <!-- Markup -->
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px">
-      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup:</div>
-      <div id="orc_markup_sugerido" style="font-size:10px;color:var(--am);font-weight:700;display:none">sugerido</div>
-    </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="orc-markup-btn" id="mk20" onclick="setMarkup(20,this)">20%</button>
-      <button class="orc-markup-btn" id="mk25" onclick="setMarkup(25,this)">25%</button>
-      <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
-      <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
-      <button class="orc-markup-btn" id="mk40" onclick="setMarkup(40,this)">40%</button>
-      <button class="orc-markup-btn" id="mk45" onclick="setMarkup(45,this)">45%</button>
-    </div>
-    <div style="margin-left:auto;text-align:right">
-      <div style="font-size:10px;color:#aaa;margin-bottom:3px">Valor a cobrar (editável)</div>
-      <input id="orc_cobrar" type="number" placeholder="ou defina o valor" oninput="recalc()" style="padding:7px 10px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:7px;color:#fff;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;width:180px;outline:none">
-    </div>
-  </div>
-
-  <!-- Cards de custo — 1 ou 2 dependendo da seleção -->
-  <div id="orcCards" style="display:flex;gap:12px;flex-wrap:wrap">
-
-    <!-- Card único (quando só uma opção) -->
-    <div id="cardUnico" style="flex:1;min-width:220px;background:rgba(255,255,255,.06);border-radius:8px;padding:12px 16px">
-      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px">Custo Total</div>
-      <div id="orcCustoTotal" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
-      <div style="display:flex;gap:16px;margin-top:6px">
-        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="orcPrecoVenda" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
-        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="orcMargem" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gn)">0%</div></div>
-      </div>
-    </div>
-
-    <!-- Card PRENSADO (quando ambos selecionados) -->
-    <div id="cardPrensado" style="display:none;flex:1;min-width:220px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px 16px">
-      <div style="font-size:10px;color:var(--am);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Opção Prensado</div>
-      <div id="custoPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
-      <div style="display:flex;gap:16px;margin-top:6px">
-        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
-        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="margemPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gn)">0%</div></div>
-      </div>
-    </div>
-
-    <!-- Card USINADO (quando ambos selecionados) -->
-    <div id="cardUsinado" style="display:none;flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px 16px">
-      <div style="font-size:10px;color:#ccc;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Opção Usinado</div>
-      <div id="custoUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
-      <div style="display:flex;gap:16px;margin-top:6px">
-        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
-        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="margemUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gn)">0%</div></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
 
 <!-- COLUNA ESQUERDA -->
@@ -1077,6 +1018,65 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
 </div><!-- fim col direita -->
 </div><!-- fim grid -->
+
+<!-- CARD DE CUSTO TOTAL -->
+<div id="orcResumo" style="background:var(--bk);border-radius:var(--r);padding:16px 20px;margin-top:16px;color:#fff;display:flex;flex-direction:column;gap:12px">
+
+  <!-- Markup -->
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px">Markup:</div>
+      <div id="orc_markup_sugerido" style="font-size:10px;color:var(--am);font-weight:700;display:none">sugerido</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="orc-markup-btn" id="mk20" onclick="setMarkup(20,this)">20%</button>
+      <button class="orc-markup-btn" id="mk25" onclick="setMarkup(25,this)">25%</button>
+      <button class="orc-markup-btn" id="mk30" onclick="setMarkup(30,this)">30%</button>
+      <button class="orc-markup-btn on" id="mk35" onclick="setMarkup(35,this)">35%</button>
+      <button class="orc-markup-btn" id="mk40" onclick="setMarkup(40,this)">40%</button>
+      <button class="orc-markup-btn" id="mk45" onclick="setMarkup(45,this)">45%</button>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:10px;color:#aaa;margin-bottom:3px">Valor a cobrar (editável)</div>
+      <input id="orc_cobrar" type="number" placeholder="ou defina o valor" oninput="recalc()" style="padding:7px 10px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:7px;color:#fff;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;width:180px;outline:none">
+    </div>
+  </div>
+
+  <!-- Cards de custo — 1 ou 2 dependendo da seleção -->
+  <div id="orcCards" style="display:flex;gap:12px;flex-wrap:wrap">
+
+    <!-- Card único (quando só uma opção) -->
+    <div id="cardUnico" style="flex:1;min-width:220px;background:rgba(255,255,255,.06);border-radius:8px;padding:12px 16px">
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px">Custo Total</div>
+      <div id="orcCustoTotal" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="orcPrecoVenda" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
+        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="orcMargem" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gn)">0%</div></div>
+      </div>
+    </div>
+
+    <!-- Card PRENSADO (quando ambos selecionados) -->
+    <div id="cardPrensado" style="display:none;flex:1;min-width:220px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px 16px">
+      <div style="font-size:10px;color:var(--am);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Opção Prensado</div>
+      <div id="custoPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
+        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="margemPrensado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gn)">0%</div></div>
+      </div>
+    </div>
+
+    <!-- Card USINADO (quando ambos selecionados) -->
+    <div id="cardUsinado" style="display:none;flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px 16px">
+      <div style="font-size:10px;color:#ccc;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Opção Usinado</div>
+      <div id="custoUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff">R$ 0</div>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <div><div style="font-size:9px;color:#aaa">Venda</div><div id="vendaUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--am)">R$ 0</div></div>
+        <div><div style="font-size:9px;color:#aaa">Margem</div><div id="margemUsinado" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--gn)">0%</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- BOTÃO ENVIAR -->
 <div style="background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:20px;box-shadow:var(--sh)">
