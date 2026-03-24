@@ -390,10 +390,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <button class="nb on"       onclick="go('vg',this)">Visão Geral</button>
     <button class="nb"          onclick="go('obras',this)">Obras</button>
     <button class="nb"          onclick="go('fl',this)">Fluxo</button>
-    <button class="nb admin-only" onclick="go('dv',this)">Dívidas</button>
     <button class="nb"          onclick="go('crm',this)">CRM</button>
-    <button class="nb"          onclick="go('agenda',this)">Agenda</button>
-    <button class="nb admin-only" onclick="go('metas',this)">Metas</button>
     <button class="nb"          onclick="go('orc',this)">📋 Orçamentos</button>
   </nav>
   <div class="hright">
@@ -429,6 +426,21 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div class="cc2"><div class="ch"><div class="ct">Lucro por Mês — 2024</div></div>
       <div class="cb"><div style="height:170px"><canvas id="cM24"></canvas></div></div></div>
   </div>
+  <div id="agendaAlertStrip"></div>
+  <div class="g2">
+    <div class="cc2"><div class="ch"><div><div class="ct">Agenda — Hoje</div><div class="cs" id="agendaHoje">—</div></div></div>
+      <div class="cb" id="agendaHojeList" style="min-height:80px">
+        <div style="color:var(--t3);font-size:13px;padding:10px 0">Configure a Google Agenda API para ver eventos aqui</div>
+      </div></div>
+    <div class="cc2"><div class="ch"><div><div class="ct">Agenda — Próximos 7 dias</div></div></div>
+      <div class="cb" id="agendaProxList" style="min-height:80px">
+        <div style="color:var(--t3);font-size:13px;padding:10px 0">Configure a Google Agenda API para ver eventos aqui</div>
+      </div></div>
+  </div>
+  <div class="sh" style="margin-top:24px"><div><div class="st">Metas <span>2026</span></div>
+    <div class="sd">Progresso em relação às metas anuais</div></div></div>
+  <div class="cr c3" id="metasKpi"></div>
+  <div class="g2" id="metasCards"></div>
 </section>
 
 <!-- OBRAS -->
@@ -480,27 +492,24 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div class="cc2"><div class="ch"><div><div class="ct">Previsto vs. Pago</div></div></div>
       <div class="cb" id="cCFB" style="padding-top:8px"></div></div>
   </div>
-</section>
-
-<!-- DÍVIDAS (admin only) -->
-<section id="dv" class="sec">
-  <div class="sh"><div><div class="st">Dívidas <span>&amp; Giro</span></div>
+  <div class="sh" style="margin-top:24px"><div><div class="st">Dívidas <span>&amp; Giro</span></div>
     <div class="sd">Só em aberto · alerta 30 dias antes do vencimento</div></div></div>
   <div id="dvAlerts"></div>
   <div class="cr c3" id="dvKpi"></div>
   <div class="g2">
-    <div class="cc2"><div class="ch"><div><div class="ct">🔴 Dívidas Curto Prazo</div></div></div>
+    <div class="cc2"><div class="ch"><div><div class="ct">Dívidas Curto Prazo</div></div></div>
       <div class="cb" id="dvCurto"></div></div>
-    <div class="cc2"><div class="ch"><div><div class="ct">📅 Empréstimos</div></div></div>
+    <div class="cc2"><div class="ch"><div><div class="ct">Empréstimos</div></div></div>
       <div class="cb" id="dvEmp"></div></div>
   </div>
   <div class="g2">
-    <div class="cc2"><div class="ch"><div class="ct">🟡 A Receber</div></div>
+    <div class="cc2"><div class="ch"><div class="ct">A Receber</div></div>
       <div class="cb"><div style="height:200px"><canvas id="cRec"></canvas></div></div></div>
     <div class="cc2"><div class="ch"><div class="ct">Folha de Pessoal</div></div>
       <div class="cb"><div class="cr c2" id="dvFolha" style="margin-bottom:0"></div></div></div>
   </div>
 </section>
+
 
 <!-- CRM -->
 <section id="crm" class="sec">
@@ -540,56 +549,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
     </tr></thead><tbody id="tCrm"></tbody></table></div></div>
 </section>
 
-<!-- AGENDA -->
-<section id="agenda" class="sec">
-  <div class="sh"><div><div class="st">Agenda <span>MarQ</span></div>
-    <div class="sd">Sincronizado com Google Agenda · orçamentos e reuniões</div></div></div>
-  <div id="agendaAlertStrip"></div>
-  <div class="g2">
-    <div class="cc2"><div class="ch"><div><div class="ct">📅 Hoje</div><div class="cs" id="agendaHoje">—</div></div></div>
-      <div class="cb" id="agendaHojeList" style="min-height:80px">
-        <div style="color:var(--t3);font-size:13px;padding:10px 0">Configure a Google Agenda API para ver eventos aqui</div>
-      </div></div>
-    <div class="cc2"><div class="ch"><div><div class="ct">📆 Próximos 7 dias</div></div></div>
-      <div class="cb" id="agendaProxList" style="min-height:80px">
-        <div style="color:var(--t3);font-size:13px;padding:10px 0">Configure a Google Agenda API para ver eventos aqui</div>
-      </div></div>
-  </div>
-  <div class="cc2"><div class="ch"><div><div class="ct">🔔 Configurar Notificações WhatsApp</div>
-    <div class="cs">Apps Script envia mensagem 1 dia e 1 hora antes dos eventos</div></div></div>
-    <div class="cb">
-      <div class="strip">📋 Para ativar notificações WhatsApp, siga os passos abaixo</div>
-      <div style="font-size:13px;line-height:2;color:var(--t2)">
-        <div><strong>1.</strong> Salva o número <strong>+34 644 59 21 74</strong> como "CallMeBot" no celular</div>
-        <div><strong>2.</strong> Manda a mensagem: <code style="background:#f0f0f0;padding:2px 6px;border-radius:4px">I allow callmebot to send me messages</code></div>
-        <div><strong>3.</strong> Aguarda a resposta com sua API Key</div>
-        <div><strong>4.</strong> Cole a API Key e o número do WhatsApp Business abaixo:</div>
-      </div>
-      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-        <input id="wppNumber" placeholder="Número WhatsApp (+5561...)" 
-          style="flex:1;min-width:200px;padding:8px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;outline:none">
-        <input id="wppKey" placeholder="CallMeBot API Key" 
-          style="flex:1;min-width:180px;padding:8px 12px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Barlow',sans-serif;font-size:13px;outline:none">
-        <button onclick="saveWpp()" 
-          style="padding:8px 20px;background:var(--am);color:#fff;border:none;border-radius:7px;font-family:'Barlow',sans-serif;font-weight:700;cursor:pointer">Salvar</button>
-      </div>
-      <div id="wppStatus" style="font-size:12px;color:var(--t3);margin-top:8px"></div>
-      <div class="dl"></div>
-      <div style="font-size:12px;color:var(--t3);line-height:1.8">
-        <strong style="color:var(--t)">Apps Script de notificação</strong> — cole no Google Sheets (Extensões → Apps Script):<br>
-        <pre id="appsScriptCode" style="background:#f4f4f4;padding:12px;border-radius:7px;font-size:11px;margin-top:8px;overflow-x:auto;white-space:pre-wrap;line-height:1.6"></pre>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- METAS (admin only) -->
-<section id="metas" class="sec">
-  <div class="sh"><div><div class="st">Metas <span>2026</span></div>
-    <div class="sd">Progresso em relação às metas definidas</div></div></div>
-  <div class="cr c3" id="metasKpi"></div>
-  <div class="g2" id="metasCards"></div>
-</section>
 
 <!-- ORÇAMENTOS -->
 <section id="orc" class="sec">
@@ -1376,7 +1336,7 @@ function parseAll(raw, meta){
 // ══════════════════════════════════════════
 function renderAll(){
   renderVG(); renderObras(); renderFluxo(); renderDividas(); renderCRM();
-  renderAgenda(); renderMetas(); renderAppsScript();
+  renderAgenda(); renderMetas();
 }
 
 // ── VISÃO GERAL ──
@@ -1886,88 +1846,6 @@ function renderMetas(){
     </div>`;
 }
 
-// ── WHATSAPP CONFIG ──
-function saveWpp(){
-  const num=document.getElementById("wppNumber").value;
-  const key=document.getElementById("wppKey").value;
-  localStorage.setItem("marq_wpp",JSON.stringify({num,key}));
-  document.getElementById("wppStatus").textContent="✓ Número e API Key salvos! Atualize o Apps Script com esses dados.";
-  renderAppsScript();
-}
-
-// ── APPS SCRIPT GERADO DINAMICAMENTE ──
-function renderAppsScript(){
-  const wpp=JSON.parse(localStorage.getItem("marq_wpp")||"{}");
-  const num=wpp.num||"SEU_NUMERO_WHATSAPP";
-  const key=wpp.key||"SUA_API_KEY_CALLMEBOT";
-  const script=`// MarQ — Notificações WhatsApp para eventos da Agenda
-// Cole em: Extensões → Apps Script → Code.gs
-// Configure: Gatilhos → Baseado em tempo → Diariamente às 7h
-
-function enviarNotificacoesMarQ() {
-  const WHATSAPP_NUM = "${num}";
-  const CALLMEBOT_KEY = "${key}";
-  const CALENDAR_ID = "SEU_EMAIL_GOOGLE@gmail.com"; // troque pelo email da agenda MarQ
-  
-  const agora = new Date();
-  const em1Dia = new Date(agora.getTime() + 24*60*60*1000);
-  const em1Hora = new Date(agora.getTime() + 60*60*1000);
-  
-  const cal = CalendarApp.getCalendarById(CALENDAR_ID);
-  if (!cal) { Logger.log("Agenda não encontrada"); return; }
-  
-  // Eventos nas próximas 25 horas
-  const eventos = cal.getEvents(agora, new Date(agora.getTime() + 25*60*60*1000));
-  
-  eventos.forEach(evento => {
-    const inicio = evento.getStartTime();
-    const diffMs = inicio - agora;
-    const diffHoras = diffMs / (1000*60*60);
-    
-    let msg = null;
-    
-    if (diffHoras >= 23 && diffHoras <= 25) {
-      // 1 DIA ANTES
-      msg = "🗓️ *AMANHÃ — MarQ Group*\n" +
-            "📋 " + evento.getTitle() + "\n" +
-            "🕐 " + Utilities.formatDate(inicio, "America/Sao_Paulo", "HH:mm") + "\n" +
-            "📍 " + (evento.getLocation() || "Ver agenda") + "\n" +
-            "📝 " + (evento.getDescription() || "") + "\n\n" +
-            "_Prepare a proposta e confirme presença!_";
-    } else if (diffHoras >= 0.8 && diffHoras <= 1.2) {
-      // 1 HORA ANTES  
-      msg = "⏰ *EM 1 HORA — MarQ Group*\n" +
-            "📋 " + evento.getTitle() + "\n" +
-            "🕐 " + Utilities.formatDate(inicio, "America/Sao_Paulo", "HH:mm") + "\n" +
-            "📍 " + (evento.getLocation() || "Ver agenda") + "\n\n" +
-            "_Boa sorte na reunião!_ 🚀";
-    }
-    
-    if (msg) enviarWhatsApp(WHATSAPP_NUM, CALLMEBOT_KEY, msg);
-  });
-}
-
-function enviarWhatsApp(numero, apiKey, mensagem) {
-  const url = "https://api.callmebot.com/whatsapp.php?phone=" + 
-    numero + "&text=" + encodeURIComponent(mensagem) + "&apikey=" + apiKey;
-  try {
-    UrlFetchApp.fetch(url);
-    Logger.log("WhatsApp enviado: " + mensagem.slice(0, 50));
-  } catch(e) {
-    Logger.log("Erro WhatsApp: " + e.message);
-  }
-}
-
-// Para testar manualmente: chame testarNotificacao()
-function testarNotificacao() {
-  const WHATSAPP_NUM = "${num}";
-  const CALLMEBOT_KEY = "${key}";
-  enviarWhatsApp(WHATSAPP_NUM, CALLMEBOT_KEY, 
-    "✅ MarQ Dashboard — notificações WhatsApp funcionando!");
-}`;
-  const el=document.getElementById("appsScriptCode");
-  if(el)el.textContent=script;
-}
 
 // ── CHART HELPERS ──
 function mkChart(id,type,data,options){
@@ -2770,7 +2648,6 @@ function limparFormOrc(){
 }
 
 // ── BOOT ──
-renderAppsScript();
 // Não carrega dados antes do login — aguarda doLogin()
 </script>
 <script>
