@@ -358,6 +358,109 @@ tbody td{padding:9px 12px;vertical-align:middle}
   .login-title { font-size: 18px; }
   .login-sub { margin-bottom: 20px; }
 }
+/* ── PAINEL INTELIGÊNCIA DE GESTÃO ── */
+.gi-panel{background:#fff;border-radius:var(--r);border:1px solid var(--bd);
+  box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.gi-header{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px 10px;border-bottom:1px solid var(--bd);background:var(--bk)}
+.gi-title{font-family:"Barlow Condensed",sans-serif;font-size:15px;font-weight:800;
+  color:#fff;text-transform:uppercase;letter-spacing:.6px}
+.gi-title span{color:var(--am)}
+.gi-meta{font-size:10px;color:rgba(255,255,255,.4);margin-top:1px}
+.gi-btn{padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.2);
+  background:transparent;color:rgba(255,255,255,.7);font-family:"Barlow",sans-serif;
+  font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;text-transform:uppercase}
+.gi-btn:hover{border-color:var(--am);color:var(--am)}
+.gi-btn:disabled{opacity:.4;cursor:not-allowed}
+.gi-body{padding:14px 16px}
+.gi-status{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.gi-stat{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;
+  border:1px solid var(--bd);background:var(--grxl)}
+.gi-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.gi-dot.saudavel{background:var(--gn);box-shadow:0 0 0 3px var(--gnl)}
+.gi-dot.atencao{background:var(--am);box-shadow:0 0 0 3px var(--aml)}
+.gi-dot.critico{background:var(--rd);box-shadow:0 0 0 3px var(--rdl);animation:alertpulse 2s infinite}
+.gi-dot.vazio{background:#ccc}
+.gi-stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--t3)}
+.gi-stat-val{font-size:12px;font-weight:700;color:var(--t);margin-top:1px}
+.gi-alertas{margin-bottom:12px}
+.gi-alerta{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;
+  margin-bottom:5px;font-size:12px;font-weight:500}
+.gi-alerta:last-child{margin-bottom:0}
+.gi-alerta.critico{background:var(--rdl);color:#7a1a1a;border-left:3px solid var(--rd)}
+.gi-alerta.atencao{background:var(--aml);color:#7a5e10;border-left:3px solid var(--am)}
+.gi-diag{background:var(--grxl);border-radius:8px;padding:10px 12px;
+  font-size:13px;color:var(--t);font-weight:500;line-height:1.55;margin-bottom:10px}
+.gi-prio{display:flex;flex-direction:column;gap:5px}
+.gi-prio-item{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--t2)}
+.gi-prio-item::before{content:"→";color:var(--am);font-weight:700;flex-shrink:0}
+.gi-empty{text-align:center;padding:24px;color:var(--t3);font-size:13px}
+.gi-empty-icon{font-size:28px;margin-bottom:6px}
+/* ── ABA GESTÃO INTELIGENTE ── */
+.gt-hd{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.gt-analisar{padding:8px 16px;background:var(--bk);color:var(--am);border:1px solid rgba(245,166,35,.35);
+  border-radius:8px;font-family:"Barlow",sans-serif;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.4px}
+.gt-analisar:hover{background:var(--am);color:#fff;border-color:var(--am)}
+.gt-analisar:disabled{opacity:.4;cursor:not-allowed}
+.gt-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.gt-sc{background:var(--bk);border-radius:var(--r);padding:16px 18px;border-left:4px solid #333;position:relative}
+.gt-sc.saudavel{border-left-color:var(--gn)}.gt-sc.atencao{border-left-color:var(--am)}.gt-sc.critico{border-left-color:var(--rd)}
+.gt-sc-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.4);margin-bottom:8px}
+.gt-sc-val{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.gt-sdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.gt-sdot.saudavel{background:var(--gn);box-shadow:0 0 0 3px rgba(30,122,62,.2)}
+.gt-sdot.atencao{background:var(--am);box-shadow:0 0 0 3px rgba(245,166,35,.2)}
+.gt-sdot.critico{background:var(--rd);box-shadow:0 0 0 3px rgba(192,57,43,.2);animation:alertpulse 2s infinite}
+.gt-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:700px){.gt-grid{grid-template-columns:1fr}.gt-cards{grid-template-columns:1fr}}
+.gt-panel{background:#fff;border-radius:var(--r);padding:16px;border:1px solid var(--bd);box-shadow:var(--sh);margin-bottom:12px}
+.gt-panel:last-child{margin-bottom:0}.gt-panel.dk{background:var(--bk);border-color:#2a2a2a}
+.gt-ptitle{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:10px}
+.gt-panel.dk .gt-ptitle{color:rgba(255,255,255,.35)}
+.gt-alerta{padding:8px 12px;border-radius:7px;margin-bottom:6px;font-size:13px;line-height:1.45}
+.gt-alerta:last-child{margin-bottom:0}
+.gt-alerta.critico{background:var(--rdl);color:#6a1010;border-left:3px solid var(--rd)}
+.gt-alerta.atencao{background:var(--aml);color:#7a5e10;border-left:3px solid var(--am)}
+.gt-diag-text{font-size:14px;color:var(--t);line-height:1.65;font-weight:500}
+.gt-prio-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;
+  border-bottom:1px solid var(--bd);font-size:13px;color:var(--t2)}
+.gt-prio-item:last-child{border-bottom:none;padding-bottom:0}
+.gt-pnum{background:var(--am);color:#fff;border-radius:50%;width:20px;height:20px;min-width:20px;
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.gt-decisao{background:var(--grxl);border-radius:7px;padding:10px 12px;margin-bottom:6px;font-size:12px}
+.gt-decisao:last-child{margin-bottom:0}
+.gt-decisao-acao{font-weight:600;color:var(--t);margin-bottom:3px}.gt-decisao-meta{color:var(--t3);font-size:11px}
+.gt-pv{font-family:"Barlow Condensed",sans-serif;font-size:30px;font-weight:800;color:var(--am);line-height:1}
+.gt-plbl{font-size:10px;color:rgba(255,255,255,.4);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.gt-psub{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px}
+.gt-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.gt-pitem{background:rgba(255,255,255,.06);border-radius:7px;padding:10px}
+.gt-pitem-v{font-family:"Barlow Condensed",sans-serif;font-size:18px;font-weight:800;color:#fff;margin-top:2px}
+.gt-empty-tab{text-align:center;padding:48px;color:var(--t3);font-size:14px;background:#fff;
+  border-radius:var(--r);border:1px solid var(--bd)}
+.gt-empty-tab-icon{font-size:40px;margin-bottom:10px}
+.gt-chat{background:var(--bk);border-radius:var(--r);overflow:hidden}
+.gt-chat-hd{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:flex-start;justify-content:space-between}
+.gt-chat-title{font-family:"Barlow Condensed",sans-serif;font-size:17px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.5px}
+.gt-chat-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+.gt-chat-clear{padding:4px 10px;border-radius:5px;border:1px solid rgba(255,255,255,.15);background:transparent;
+  color:rgba(255,255,255,.35);font-family:"Barlow",sans-serif;font-size:11px;cursor:pointer;transition:all .15s}
+.gt-chat-clear:hover{border-color:var(--am);color:var(--am)}
+.gt-chat-msgs{height:300px;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px;
+  scrollbar-width:thin;scrollbar-color:#333 transparent}
+.gt-msg{max-width:82%;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.55;word-break:break-word}
+.gt-msg.user{background:var(--am);color:#fff;align-self:flex-end;border-radius:10px 10px 2px 10px}
+.gt-msg.bot{background:rgba(255,255,255,.09);color:rgba(255,255,255,.88);align-self:flex-start;border-radius:10px 10px 10px 2px}
+.gt-msg.loading{color:rgba(255,255,255,.35);font-style:italic}
+.gt-chat-in{display:flex;gap:8px;padding:12px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.gt-chat-in input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;padding:10px 14px;color:#fff;font-family:"Barlow",sans-serif;font-size:13px;outline:none;transition:border .15s}
+.gt-chat-in input::placeholder{color:rgba(255,255,255,.25)}
+.gt-chat-in input:focus{border-color:var(--am)}
+.gt-send{padding:10px 18px;background:var(--am);color:#fff;border:none;border-radius:8px;
+  font-family:"Barlow",sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap}
+.gt-send:hover{background:var(--amd)}.gt-send:disabled{opacity:.4;cursor:not-allowed}
 /* ────────────────────────────────────────────────────────────────── */
 </style>
 </head>
@@ -392,6 +495,7 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <button class="nb"          onclick="go('fl',this)">Fluxo</button>
     <button class="nb"          onclick="go('crm',this)">CRM</button>
     <button class="nb"          onclick="go('orc',this)">📋 Orçamentos</button>
+    <button class="nb"          onclick="go('gestao',this);carregarGestaoTab()">🧠 Gestão</button>
   </nav>
   <div class="hright">
     <span class="hperfil" id="hPerfil"></span>
@@ -410,6 +514,19 @@ tbody td{padding:9px 12px;vertical-align:middle}
 
 <!-- VISÃO GERAL -->
 <section id="vg" class="sec on">
+  <!-- PAINEL INTELIGÊNCIA DE GESTÃO -->
+  <div class="gi-panel">
+    <div class="gi-header">
+      <div>
+        <div class="gi-title">Inteligência de <span>Gestão</span></div>
+        <div class="gi-meta" id="giMeta">Carregando último relatório…</div>
+      </div>
+      <button class="gi-btn" id="giBtnAtualizar" onclick="carregarGestao()">↻ Atualizar</button>
+    </div>
+    <div class="gi-body" id="giBody">
+      <div class="gi-empty"><div class="gi-empty-icon">🧠</div>Nenhum relatório publicado ainda.<br>Execute o squad para ver o diagnóstico aqui.</div>
+    </div>
+  </div>
   <div class="sh"><div><div class="st">Visão <span>Geral</span></div>
     <div class="sd">Comparativo anual · faturamento, lucro e margem</div></div></div>
   <div class="strip" id="vgStrip">💡 Carregando…</div>
@@ -1032,6 +1149,66 @@ tbody td{padding:9px 12px;vertical-align:middle}
 </div>
 
 </section>
+
+<!-- GESTÃO INTELIGENTE -->
+<section id="gestao" class="sec">
+  <div class="gt-hd">
+    <div>
+      <div class="st">Inteligência de <span>Gestão</span></div>
+      <div class="sd" id="gtPeriodo">Carregando último relatório…</div>
+    </div>
+    <button class="gt-analisar" id="gtAnalisarBtn" onclick="analisarAgora()">⚡ Analisar Agora</button>
+  </div>
+
+  <!-- Status Cards -->
+  <div class="gt-cards" id="gtCards">
+    <div class="gt-sc"><div class="gt-sc-lbl">💰 Financeiro</div><div class="gt-sc-val"><div class="gt-sdot"></div>—</div></div>
+    <div class="gt-sc"><div class="gt-sc-lbl">📊 Comercial</div><div class="gt-sc-val"><div class="gt-sdot"></div>—</div></div>
+    <div class="gt-sc"><div class="gt-sc-lbl">⚙️ Operacional</div><div class="gt-sc-val"><div class="gt-sdot"></div>—</div></div>
+  </div>
+
+  <!-- Notificação "Analisando..." -->
+  <div id="gtNotif" style="display:none;background:var(--gnl);border:1px solid var(--gn);border-radius:var(--r);
+    padding:10px 14px;font-size:13px;color:var(--gn);font-weight:600;margin-bottom:14px">
+    ✅ Análise iniciada! O relatório estará disponível em ~3 minutos. Clique em "Analisar Agora" para atualizar.
+  </div>
+
+  <!-- Grid principal: alertas+diagnóstico+prioridades | projeção+comparativo -->
+  <div class="gt-grid" id="gtMain" style="display:none">
+    <div>
+      <div class="gt-panel" id="gtAlertasSection" style="display:none"></div>
+      <div class="gt-panel" id="gtDiagSection">
+        <div class="gt-ptitle">📌 Diagnóstico Executivo</div>
+        <div class="gt-diag-text" style="color:var(--t3)">Aguardando relatório…</div>
+      </div>
+      <div class="gt-panel" id="gtPriosSection"></div>
+    </div>
+    <div>
+      <div class="gt-panel dk" id="gtProjSection" style="padding:18px"></div>
+      <div class="gt-panel" id="gtCompSection"></div>
+      <div class="gt-panel" id="gtPergSection" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- Chat com Conselheiro Executivo -->
+  <div class="gt-chat">
+    <div class="gt-chat-hd">
+      <div>
+        <div class="gt-chat-title">🧠 Conselheiro Executivo</div>
+        <div class="gt-chat-sub">Pergunte qualquer coisa — análises, opiniões, tomadas de decisão</div>
+      </div>
+      <button class="gt-chat-clear" onclick="limparChat()">Limpar</button>
+    </div>
+    <div class="gt-chat-msgs" id="gtChatMsgs">
+      <div class="gt-msg bot">Olá, Matheus. Sou o Conselheiro Executivo da MarQ. Carregue um relatório ou me faça uma pergunta sobre a empresa — estou aqui para te ajudar a tomar melhores decisões.</div>
+    </div>
+    <div class="gt-chat-in">
+      <input type="text" id="gtChatInput" placeholder="Pergunte algo ao Conselheiro…" onkeydown="if(event.key==='Enter')enviarChat()">
+      <button class="gt-send" id="gtSendBtn" onclick="enviarChat()">Enviar</button>
+    </div>
+  </div>
+</section>
+
 </main>
 <footer class="footer">
   <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAH0AfQDASIAAhEBAxEB/8QAHQABAAMBAAMBAQAAAAAAAAAAAAcICQYDBAUCAf/EAFMQAQABAwICAggRCAgFBAMAAAABAgMEBQYHERIhCAkYMUFWs9ITFjU3OFFVYXJzdHWRk5WxshQzNDaBtNHTFSIyUlRxlNQXI0JTkmKhweNkdsL/xAAbAQEAAgMBAQAAAAAAAAAAAAAABAYDBQcBAv/EADgRAQABAwIBCQYEBQUAAAAAAAABAgMRBAUGEhMhMVFxgcHRFiIzQVJhMpGhsVOCwtLhFCNy8PH/2gAMAwEAAhEDEQA/ALlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8WZk4+HiXsvLv28fHsW6rl27cqimiiimOc1TM9URERz5g8opdxq7MjMo1K/pPC/Bxvya1VNE6vm25rm779q1PKKY9qa+fP8AuwhPI7JPjdfuzcr37l0zPgt4uPRH0U24gGnoy+7ozjX4/wCofU2fMO6M41+P+ofU2fMBqCMvu6M41+P+ofU2fMO6M41+P+ofU2fMBqCMvu6M41+P+ofU2fMeTG7JPjdYuxco37l1THguYuPXH0VW5gGnophwU7MfKualY0jihg40Y92qKI1fCtzRNr37tqOcTHtzRy5f3ZXLxMixl4trKxb1u/j3qIuWrtuqKqa6ZjnFUTHVMTE8+YPICq3ZB9lrhbV1XK2zw9w8XV9Rx6pt5Oo5EzVjWa4nlNNFMTE3Jj+9zimJ/vAtSMx9R7Jnjdm5FV2rfF6xEzzi3Yw8e3TTHtRyt8/p5vW7ozjX4/6h9TZ8wGoIy+7ozjX4/wCofU2fMO6M41+P+ofU2fMBqCMvu6M41+P+ofU2fMO6M41+P+ofU2fMBqCMv7fZH8bbdcV07+zpmP72PYqj6Jo5JQ4U9mTu7TdQs4nELCx9d06qYpuZeLZpsZVuPDV0aeVuv4PKn/MF8B8vam4NH3Tt7C3BoGdaztNzbfoli/b71Ud6YmJ64mJ5xMT1xMTEuG7KXcWtbU4Dbl3Bt7PuYGp4lOPNjIopiaqOlk2qKuUVRMddNUx3vCCTRl93RnGvx/1D6mz5h3RnGvx/1D6mz5gNQRl93RnGvx/1D6mz5h3RnGvx/wBQ+ps+YDUEZfd0Zxr8f9Q+ps+Yd0Zxr8f9Q+ps+YDUEZfd0Zxr8f8AUPqbPmEdkbxrif1/z/qLPmA1BGeWwOy+4oaHnW/TLXhbnwOl/wAy3esUY96Kf/RctUxET8KmpdzhFxI2zxP2nb3DtrJqqoifQ8nGuxyvYtzlzmiuPumOcTHekHYg+VuPXcTRceK73O5er/N2qZ66vfn2o99h1Gotaa3N27VimOuWS1aru1xRRGZl9URdnby1vIuTNq9RjUeCm3RE/wDvPOXq+mfXvdK79FP8FTucb6CmrFNNU+Eerd08O6mYzNUR+folsRJ6Z9e90rv0U/wPTPr3uld+in+D49uNF/Dq/T1e+zmo+qP19EtiJPTPr3uld+in+B6Z9e90rv0U/wAD240X8Or9PU9nNR9Ufr6JbESemfXvdK79FP8AB7OHvHXbFcTXkUZFPhpuW4++OUvujjfQ1TiqiqPCPV5Vw7qYjMVRP5+iUh8bbO4cTW7UxRHoOTRHOu1M8+r24nww+ytem1NrVWou2as0z82kvWa7Nc0XIxMADOxgAAAAAAAAAAAAAAACrHbEN95ei7I0nZOnX6rVeu3K7ubNMzEzj2pp5Uf5VV1R/wCEx3pWnUS7ZLVVPEjbFPOejGkVTEe/N6r+EAqoC1nYO8J+H/EbbW5Mvee36dVv4eZat49U5V610KaqJmY5W66YnrjwgqmNNe5g4F+IlH2nmfzVX+zn4Z7H4cZu0rey9Dp0qnPt5dWVEZN676JNE2uj+crq5culV3uXfBWoFl+wX4ZbH4j5O7qN6aHTqtOn0Yc4sTk3rXoc1ze6X5uunnz6FPf594FaBpr3MHAvxEo+08z+arn2cfCjYHDnb+2crZm36dKvZuVft5FUZV6706aaKZiP+ZXVy65nvAqsvp2vHfeXrmw9V2ZqN+q7c0C7RXh1VTMz+T3el/U5+1TXTV/lFcR3oULWu7WzVVHEHdNHOejOlUTMe/F2P4yCwfZmb7y9icEM+9pl+qxqWr3qdMxrtM8qrfolNU3Ko9qYt01xE+CZiWZy9fbJqqo4e7Wo5z0Z1auZj34tT/GVFABPnYSbA2jxE4iazpW8dIjVMPH0mrItW5v3bXRuejW6elzt1UzPVVMcpnl1rc9zBwL8RKPtPM/mgzKGmvcwcC/ESj7TzP5p3MHAvxEo+08z+aDMoaa9zBwL8RKPtPM/mncwcC/ESj7TzP5oMyhdnsueCHC7Y3BXO3Dtba1Onanay8e3RfjNyLnKmquIqjo13KqeuPeUmBbXtdO+8vF3XqvD3Lv1V4Gdj1Z+HRVPOLd+jlFcR7XSonnPxce2sD2aXsZt3/Axf3uypx2DVVVPZK7diJmIqs5kT78fk1yf/hcfs0vYzbv+Bi/vdkGZIJB7HLb2j7r42bZ29uDDjN0zNya6MixNyqjp0xbrqiOlTMVR1xHemAR8NNe5g4F+IlH2nmfzTuYOBfiJR9p5n80GZQ017mDgX4iUfaeZ/NO5g4F+IlH2nmfzQZlDTXuYOBfiJR9p5n81z3E3sceDGj8Ntz6tp2y6LGbhaPl5OPd/pHKq6FyizXVTVym7MTymInlMTAM600dhrvvL2Xxv0jFi/VGm69do0zMtTP8AVqm5PK1V/nTcmnr9qao8KF3RcMqqqOJO2K6ZmKqdYxJiY8E+jUA12mYiJmZ5RCGte1C5qeq38yuZmK6uVEf3aY70fQl/Pnlg35j/ALVX3ISc/wCOr9cU2bUT0TmZ8MY/eVo4bt0zNyv59EA/VuIm5TE96ZhKvpS297nx9dX5yqbRseo3WK+ZqiOTjOc/PPZE9jda7cbWi5PORM57Pt4ooEr+lLb3ufH11fnHpS297nx9dX5zcew+v+uj85/tQPaLTfTV+UeqKBK/pS297nx9dX5x6Utve58fXV+cew+v+uj85/tPaLTfTV+UeqKBK/pS297nx9dX5yLs+im1nX7dEcqKLtVNMe1ES1G7bDqNqppqvVRPKz1Z+XfEJ2h3K1rZmLcTGO3/ANeTSs27p2oWcyzPKu1Vz5e3Hhj9sJns3Kbtqi7RPOmumKqZ96UHJn0KeeiYEz/hrf4YWbgW/Xm9az0dE+PV/wB7mo4kt04or+fTD3AHRFVAAAAAAAAAAAAAAAAFEe2S+uVtn5nny1a9yiPbJfXK2z8zz5asFVV4+1q/qdu/5wseTqUcXj7Wr+p27/nCx5OoFtVK+2Y+qOxPic777C6ilfbMfVHYnxOd99gFO1x+1m/pm/fi8D78hThcftZv6Zv34vA+/IBdFUbtlf6q7N+XZP4KFuVRu2V/qrs35dk/goBSBa3tbPribp+aaPLUqpLW9rZ9cTdPzTR5akHedsn9b/avzrc8lKiy9PbJ/W/2r863PJSosC0fa3vXZ3D8xVeXsr6sleF3EbdnDTWcnV9oZ1rDzMnHnGu13Mei7E2+lTVy5VxMR10x1pF7rDjb4yYf2Zj+YDSUZtd1hxt8ZMP7Mx/MO6w42+MmH9mY/mA0lGbXdYcbfGTD+zMfzDusONvjJh/ZmP5gLWdnp7HTU/l2J5SGcCUeInHvibv/AGxd23ufWcbK027couV26MG1bmaqJ50/1qaYnvouBN3YN+yW258Vmfut1cjs0vYzbv8AgYv73ZU37Bv2S23Pisz91urkdml7Gbd/wMX97sgzJSt2Ivsjtm/LK/I3EUvsbL3Lq+z90YO5dByKMfUsGubmPcqt01xTM0zT/ZqiYnqme+DYAZtd1hxt8ZMP7Mx/MO6w42+MmH9mY/mA0lGbXdYcbfGTD+zMfzDusONvjJh/ZmP5gNJXJ8ZvWf3p/wDr+d+71qDd1hxt8ZMP7Mx/MelrvZO8Yta0TP0bUNwYlzDz8a5i5FEadYpmq3cpmmqOcU846pnrgEMug4a+uNtn53xPLUufdhwT0zI1njBtDTcaiquu9rOLz5eCmLtNVVX7KYmf2A1iz/0HI+Kq+6UJJtz/ANByPiqvulCTnPHfxLPdV5LXw3+G54eb9WfztHwoTig6z+do+FCcWXgPqv8A8v8AU+OJeu34+QA6Cq4AAhTU/VLK+Or/ABSmtCmp+qWV8dX+KVB47+HZ758lm4b/AB3O6PN66ZtB9Q8D5Nb/AAwhlM2g+oeB8mt/hhD4F+Pd7o/dn4k+HR3y90B0pUgAAAAAAAAAAAAAAABRHtkvrlbZ+Z58tWvcoj2yX1yts/M8+WrBVVePtav6nbv+cLHk6lHF4+1q/qdu/wCcLHk6gW1Ur7Zj6o7E+JzvvsLqKV9sx9UdifE5332AU7XH7Wb+mb9+LwPvyFOFx+1m/pm/fi8D78gF0VRu2V/qrs35dk/goW5VG7ZX+quzfl2T+CgFIFre1s+uJun5po8tSqktb2tn1xN0/NNHlqQd52yf1v8Aavzrc8lKiy9PbJ/W/wBq/OtzyUqLACcew34a7W4n7+1fRt12Mm9iYulzk2osX5tTFcXbdPXMd+OVU9S1Xci8Gfc7V/tGsGcg0b7kXgz7nav9o1nci8Gfc7V/tGsGcg0b7kXgz7nav9o1nci8Gfc7V/tGsGcguP2VPY+cN+HnB7N3NtvD1C1qNnKsWqKr2ZVcp6NdcRPVPvKcAm7sG/ZLbc+KzP3W6uR2aXsZt3/Axf3uypv2DfsltufFZn7rdXI7NL2M27/gYv73ZBmSDvOx+2xpW8+Me3Nsa5bu3NOz8iq3fptXJoqmIt11dUx3uuIBwY0b7kXgz7nav9o1qhdkpwQ1rhHuLp0ei5+2sy5P5Bn9Hrie/wChXeXVFyI/ZVEc48MQEQg8uLct2sq1cvWKb9uiuKq7VVU0xXET10zMdcc+91A8Qu9wQ4L9jtxW2jb1vRMPV7WTa5UZ+BXqlU3cS5Md6fbpnr6NXemPamJiO9jsReDPP1O1f7RrBnLETM8ojnK7nYNcDNS0HKjiXu/BrxMuuzNGj4d6jlct01xyqv1R36ZmmZppievlNUz34TjsHgRwp2Rm29Q0LaOJ+X26ulbysuuvJuUT7dM3JmKZ9+mISUDw5/6DkfFVfdKEk25/6DkfFVfdKEnOeO/iWe6ryWvhv8Nzw836s/naPhQnFB1n87R8KE4svAfVf/l/qfHEvXb8fIBGFW9NdiqY9Fs9/wD7ULVuu9afa+Rz8T72cYjsx947Wl0W33dZyubx0dv3SeIv9Omu/wDds/VQkzGrm5j2q6u/VREz9Dzat8026TVFiJ93Gcx2+M9j3W7dd0cRNzHT2PIhTU/VLK+Or/FKa0Kan6pZXx1f4pVnjv4dnvnybfhv8dzujzeumbQfUPA+TW/wwhlM2g+oeB8mt/hhD4F+Pd7o/dn4k+HR3y90B0pUgAAAAAAAAAAAAAAABRHtkvrlbZ+Z58tWvcoj2yX1yts/M8+WrBVVePtav6nbv+cLHk6lHF4+1q/qdu/5wseTqBbVSvtmPqjsT4nO++wuopX2zH1R2J8TnffYBTtcftZv6Zv34vA+/IU4XH7Wb+mb9+LwPvyAXRVG7ZX+quzfl2T+ChblUbtlf6q7N+XZP4KAUgWt7Wz64m6fmmjy1KqS1va2fXE3T800eWpB3nbJ/W/2r863PJSosvT2yf1v9q/OtzyUqLAtH2t712dw/MVXl7K+qhXa3vXZ3D8xVeXsr6gAAAAgbs9PY6an8uxPKQzgaP8AZ6ex01P5dieUhnACbuwb9kttz4rM/dbq5HZpexm3f8DF/e7Km/YN+yW258Vmfut1cjs0vYzbv+Bi/vdkGZKVuxF9kds35ZX5G4ilK3Yi+yO2b8sr8jcBqE+Vu7bui7s27mbf3BgWs/Tcy36Hes3I6pjwTE9+KonriY64mImH1QGYvZKcENa4R7i6dHouftrMuT+QZ/R64nv+hXeXVFyI/ZVEc48MRELYPd23dF3Zt3M2/uDAtZ+m5lv0O9ZuR1THgmJ78VRPXEx1xMRMM2uyU4Ia1wj3F06PRc/bWZcn8gz+j1xPf9Cu8uqLkR+yqI5x4YgOM4Wb+3Hw33fjbl21l+hZFr+res1c5tZNuZ/rW7lPhpn6YnlMcpiJaY8EeKe3OK20Let6Jc9CybfKjPwK6om7iXOXen26Z6+jV3pj2piYjKN1HDLfu5uHO6bW4trZ35Nl0UzRcorjpWr9E9+i5T/1U/8AvExExymOYNcBnn3ZPFz/AA+2f9DX/MfV2d2XPFXVt3aNpWVY25GPmZ9jHuzRhVxV0a7lNM8p9E7/ACkF8c/9ByPiqvulCSb8mibmNdtx36qJpj9sIRqiaappmJiYnlMS51x3E8uxP/LyWvhufduR3eb+2fztHwoTig2mZpqiqO/E83TenjWvaxfq5/i1vC+9abbIu8/n3sYxGerPql7zt97WTRzeOjPkkxBtf9uf83TenjWvaxfq5/i5iZ5zzecUb1ptz5rmM+7nOYx149DZtvvaPl85jpx+mRN2F+h2Pi6fuQi6W3vXWbdum3TGLypiIj/lz4P2vnhfeNPtlVyb+fexjEZ6svreNBd1kURbx0Z8knIU1P1Syvjq/wAUvv8Ap41r2sX6uf4ubv3Kr16u7Xy6VdU1Ty9uZZeJ970u50W4sZ92ZzmMdeGPZ9uvaOqubmOnD8Jm0H1DwPk1v8MIZTVpNuqzpWJZriYqosUUzE+3FMQmcCxPPXp+0fuwcST/ALduPvL2QHSVSAAAAAAAAAAAAAAAAFEe2S+uVtn5nny1a9yJuN3ALZ3FzXMHV9yalr2Jfwsaca3Tp9+1RRNPSmrnMV2q5585nwwDMBePtav6nbv+cLHk6n3O4q4We7+8/wDWY3+3SrwP4Qba4Q6bqWBtvO1fLtajeovXp1C7brqpqppmI6PQoo5R1+HmCRFK+2Y+qOxPic777C6iMOOXBDanGC9pN3cuoa1iVaVTdpsf0fetURVFyaOl0unbr5/2I5cuXhBlsuP2s39M378XgffkO47irhZ7v7z/ANZjf7dJfAzgjtTg/c1e5trUNay51WLMX/6QvWq+j6F0+j0ehbo5fnJ58+fg7wJOVG7ZX+quzfl2T+ChblHXHDg9tni9p+mYW5c7V8S3p12u7ZnT7tuiapriInpdO3Xzjq8HIGVi1va2fXE3T800eWpSl3FXCz3f3n/rMb/bpB4I8BNn8I9Zz9V23qWu5d/Ox4x7tOoX7VdMUxVFXOOhbonnzjwzIIo7ZP63+1fnW55KVFmq/G/hJtvi7o+n6XuTN1bEs4GRORaq0+7boqmqaejyq6dFccuXtRCJ+4q4We7+8/8AWY3+3BEfa3vXZ3D8xVeXsr6oj4J9j/s3hJuHM1zbmp6/l5OXiTiXKdQv2a6IomumvnEUWqJ586Y8Pt9SXAAAAAQN2ensdNT+XYnlIZwNa+LfD/RuJmy7+09eyc/Gwb923dquYVyii7E0VdKOU101Ry5+8hPuKuFnu/vP/WY3+3BW7sG/ZLbc+KzP3W6uR2aXsZt3/Axf3uy9HhV2MewuG++MLd+h6vuXIz8Om5Tbt5mTYrtTFy3VRPOKbNM96qeXXHWkzifszS+IWxtS2frV/Mx8DUItxduYldNN2noXKbkdGaqaojrojvxPVzBkWlbsRfZHbN+WV+RuLU9xVws9395/6zG/27oOHPYrcPdi710zdukazui/nabcm5Zt5WTYqtVTNM0/1ops0zMcqp70wCeQAHyt3bd0Xdm3czb+4MC1n6bmW/Q71m5HVMeCYnvxVE9cTHXExEw+qAzF7JTghrXCPcXTo9Fz9tZlyfyDP6PXE9/0K7y6ouRH7KojnHhiIhbDbn0HRtz6FlaHr+nY+o6blUdC9j3qedNUffExPXExymJ64QDqPYZcJsrLrvWNR3Xg0VTzizYzbM0U+9E12aqvpmQZ7ug4a+uNtn53xPLUrv8AcVcLPd/ef+sxv9u9zQ+w64ZaRrWDq2Nru767+Fk28i3Tcy8eaZqoqiqImIsRPLnHtwCxqNd+aDdwc65qGPbmrEvVdKrlH5uqe/E+9M976ElP5XTTXRNFdMVU1RymJjnEw1O8bTb3TT81XOJjpieyfTtTdBrq9Hd5dPTHzhBolLO2bomTcmum1dx5nvxZr5R9ExMR+x6vpD0f/E53/nR5rnlfBm401Yp5Mx3+sLTTv+kmMzmPBG4kj0h6P/ic7/zo81HFUcqpj32o3PZtTtvJ5+I97OMTnqx6p+j19nV55r5eb+AkXH2NpNzHt3KsjO51URM8q6fDHwXm2bRqdymqLER7uM5nHWavXWtJETc+aOhJHpD0f/E53/nR5r2MPZeiY9yK67d7I5d6LtfV9ERDcUcGblVOJ5MeP+EGrf8ASRGYzPg5LZOg3dTz6Mq9bmMOzV0qpmOquY/6Y/8AlKD82rdu1bpt2qKaKKY5U00xyiI/yfp0HZdnt7XY5umc1T0zPb/iFX3DX1625yp6IjqgAbhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHJTsPS5mZ/K8zr/wDVT5rrRC1m3abW4/1FEVY6s/dIsaq9p881VjLkvSFpf+LzP/KnzXV2qIt2qLcTMxTTERz95+h5o9t0uimZsURTnrwX9Xe1GOdqzgATkcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABw3FLiHjbK/JcejAqz87KiaqLXonQpppieXOZ5T3570RHgnvOG/456t4pU/X1eacdPXX2t8Gx5eXYcUuI1/ZeqYmFa0WM+MixN2a5vzR0f60xy5dGfaByuBxs1TJzsfHq2rTRF27TRNXo9XVznlz/svd3dxizdE3Tn6LZ2/ayoxbs24r/KJiaurv8opl6OFx0ycjPx8Wva9Fv0a7TRznMnq5zEc/wCw5jWtyXNp8b9Z1i3hRm1UXrlHoXonQ59KmI58+U/cDov+OereKVP19Xmuq4a8U7G6tYr0fO0udNy4t1XLc+i9OmuKeuYnnETE8uv9kuTp4+ZNU8qdrW5n2ozZ8x6PDmvU908U8/d39GXMXEjHu13ZnnNFMza6EUxVMRznw/SD7GpcdKvy+9b0jblWVi26ppou3L8xVXHt9GKZ5c/a5vX/AOOereKVP19XmvP2LH6JuD4yx91xNVX9mf8AIEb6TxUx9U2Fq+4sfTJozNL6Ho2JXd50z06oimYr5d6evweD9rpuHO5Lm7Nq2NauYlOLVduV0eh019KI6NUx3+UIA2B62O/vicLylaYex79bHD+PvfjkHVbz1irb+18/WaLFORViWunFuaujFXXEcuf7UeZnF7Kx9kYG4o0OzVXl5dzHmz+UTypiiInnz6Ph5uv4v+tprvyb/wDqEA6v6zGh/OuR+GAdtHHTVZjnG06Jif8A8irzXlxeO2RRk2/6R2vNrHqq5V1W8ielEe3ETTyn/LnD09N44ZeHp2NiRtam5FizRbir8rmOl0YiOf8AY958Lf8AvrUuIeJhaPjbcuWb1GR6JRFq5VdqrmYmnly6Me2CyeJftZWLayrFfTtXqKblur26ZjnE/Q8j0Nu4t3A2/p2De5ei4+JatV8p6ulTRET9z3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQj2RGLn4e6dB3Lbw7l/DxaaYrqp58oqoudPlVPX0ecT1T70vx/wAfqvFSPtD/AOtOICtOs7iz+J2+dDnB0SvGrx66aKopuzdiKenFU11T0Y5REOk2p7JXVPhX/wAEJyAQzxX4e5mnah6c9lxcx8qzX6NkY9iOUxPhuUR99Ph6/fh7fDzirlbs1fG23l6NbsZF+xci5lUX56PSpomZnodHq58u90upLYCsewt45/DHK1XTdQ2/cv5F65RFdNy/NmaJo6UdX9WecT0u+6qeP1Uxy9KkfaH/ANacgFduGm2dZy+Fu8K7WDe559uzGLTNMxN6bVVVVXRjw9+Ij256nh2HxWu7N27b0C5t2cmuxcrqqrqyptTzqq58pp6E8uX+ax4CvO7eMte4tuZuiRtv8nnMt+hxcjM6c09cT/Z6Ec+97b5O7dLzdK4ObctZ9iuxdvZ9+9FuuOVUU1U9XOPBziOf7VnAHz9tfq5pnyO1+CH0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k=" alt="MarQ"> MarQ Group · Dashboard v5 · <span id="fTs">—</span>
@@ -1092,6 +1269,7 @@ function doLogin(){
       document.querySelectorAll(".admin-only").forEach(el=>el.classList.add("hidden"));
     }
     loadData();
+    carregarGestao();
   } else {
     document.getElementById("loginErr").style.display="block";
     document.getElementById("loginPwd").value="";
@@ -2632,7 +2810,13 @@ ${obs?`<br><br><strong>Observações:</strong><br>${obs}`:''}
     .then(saved=>{
       const strip=document.createElement('div');
       strip.style.cssText='margin-top:10px;padding:8px 12px;background:var(--gnl);border-radius:6px;font-size:12px;color:var(--gn);font-weight:700';
-      strip.innerHTML='Enviado para o Oscar — ID: '+saved.id+' &nbsp;·&nbsp; <a href="https://t.me/+OOO2BhGO7185MmNh" target="_blank" style="color:var(--gn);font-weight:700;text-decoration:underline">Abrir grupo no Telegram →</a>';
+      strip.textContent='Enviado para o Oscar — ID: '+saved.id+' · ';
+      const lnk=document.createElement('a');
+      lnk.href='https://t.me/+OOO2BhGO7185MmNh';
+      lnk.target='_blank';
+      lnk.style.cssText='color:var(--gn);font-weight:700;text-decoration:underline';
+      lnk.textContent='Abrir grupo no Telegram →';
+      strip.appendChild(lnk);
       res.appendChild(strip);
     })
     .catch(()=>{
@@ -2672,6 +2856,236 @@ function limparFormOrc(){
   const sug=el('orc_markup_sugerido'); if(sug) sug.style.display='none';
   el('orc_resultado').style.display='none';
   recalc();
+}
+
+// ── PAINEL INTELIGÊNCIA DE GESTÃO ──────────────────────────────────────────────
+
+async function carregarGestao() {
+  const btn = el('giBtnAtualizar');
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch(`${MARQ_SERVER}/api/gestao/ultimo-relatorio`);
+    if (!res.ok) { renderGestaoVazio(); return; }
+    const r = await res.json();
+    renderGestao(r);
+  } catch {
+    renderGestaoVazio();
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+function renderGestaoVazio() {
+  const body = el('giBody');
+  const meta = el('giMeta');
+  if (meta) meta.textContent = 'Nenhum relatório disponível';
+  if (body) body.innerHTML = `<div class="gi-empty"><div class="gi-empty-icon">🧠</div>Nenhum relatório publicado ainda.<br>Execute o squad para ver o diagnóstico aqui.</div>`;
+}
+
+function renderGestao(r) {
+  const body = el('giBody');
+  const meta = el('giMeta');
+  if (!body) return;
+
+  // Meta: data e período
+  const dataFmt = r.data ? new Date(r.data + 'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+  if (meta) meta.textContent = `Publicado em ${dataFmt}${r.periodo_analisado ? ' · ' + r.periodo_analisado : ''}`;
+
+  // Status dots
+  const dot = s => {
+    const cls = ['saudavel','atencao','critico'].includes(s) ? s : 'vazio';
+    const label = {saudavel:'🟢 Saudável', atencao:'🟡 Atenção', critico:'🔴 Crítico', vazio:'—'}[cls];
+    return `<div class="gi-dot ${cls}"></div><div><div class="gi-stat-label">{L}</div><div class="gi-stat-val">${label}</div></div>`;
+  };
+
+  const statusHtml = `
+    <div class="gi-status">
+      <div class="gi-stat">${dot(r.status_financeiro).replace('{L}','Financeiro')}</div>
+      <div class="gi-stat">${dot(r.status_comercial).replace('{L}','Comercial')}</div>
+      <div class="gi-stat">${dot(r.status_operacional).replace('{L}','Operacional')}</div>
+    </div>`;
+
+  // Alertas críticos
+  const alertasCrit = (r.alertas_criticos || []).map(a =>
+    `<div class="gi-alerta critico">🔴 ${a.mensagem}</div>`).join('');
+  const alertasAtenc = (r.alertas_atencao || []).map(a =>
+    `<div class="gi-alerta atencao">🟡 ${a.mensagem}</div>`).join('');
+  const alertasHtml = (alertasCrit || alertasAtenc)
+    ? `<div class="gi-alertas">${alertasCrit}${alertasAtenc}</div>` : '';
+
+  // Diagnóstico
+  const diagHtml = r.diagnostico_executivo
+    ? `<div class="gi-diag">📌 ${r.diagnostico_executivo}</div>` : '';
+
+  // Prioridades
+  const prios = (r.prioridade_agora || []).slice(0,3);
+  const prioHtml = prios.length
+    ? `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:6px">Prioridade agora</div>
+       <div class="gi-prio">${prios.map(p=>`<div class="gi-prio-item">${p}</div>`).join('')}</div>`
+    : '';
+
+  body.innerHTML = statusHtml + alertasHtml + diagHtml + prioHtml;
+}
+
+// ── ABA GESTÃO INTELIGENTE ────────────────────────────────────────────────────
+
+let chatHistoricoGestao = [];
+
+async function carregarGestaoTab() {
+  try {
+    const res = await fetch(`${MARQ_SERVER}/api/gestao/ultimo-relatorio`);
+    if (!res.ok) { renderGestaoTabVazio(); return; }
+    const r = await res.json();
+    renderGestaoTab(r);
+    renderGestao(r); // sincroniza mini painel da Visão Geral
+  } catch { renderGestaoTabVazio(); }
+}
+
+function renderGestaoTabVazio() {
+  const p = el('gtPeriodo'); if (p) p.textContent = 'Nenhum relatório disponível';
+  const c = el('gtCards');
+  if (c) c.innerHTML = `<div style="grid-column:1/-1"><div class="gt-empty-tab">
+    <div class="gt-empty-tab-icon">🧠</div>Nenhum relatório publicado ainda.<br>
+    Clique em "⚡ Analisar Agora" para gerar o primeiro diagnóstico.</div></div>`;
+  const m = el('gtMain'); if (m) m.style.display = 'none';
+}
+
+function _gtCls(s) { return ['saudavel','atencao','critico'].includes(s) ? s : ''; }
+function _gtLbl(s) { return {saudavel:'Saudável',atencao:'Atenção',critico:'Crítico'}[_gtCls(s)] || '—'; }
+
+function renderGestaoTab(r) {
+  const periodo = el('gtPeriodo');
+  const cards   = el('gtCards');
+  const main    = el('gtMain');
+  if (!cards) return;
+
+  const df = r.data ? new Date(r.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '—';
+  if (periodo) periodo.textContent = `Última análise: ${df}${r.periodo_analisado?' · '+r.periodo_analisado:''}`;
+
+  const sc = (ico,lbl,st) => {
+    const cls = _gtCls(st);
+    return `<div class="gt-sc ${cls}"><div class="gt-sc-lbl">${ico} ${lbl}</div>
+      <div class="gt-sc-val"><div class="gt-sdot ${cls}"></div>${_gtLbl(st)}</div></div>`;
+  };
+  cards.innerHTML = sc('💰','Financeiro',r.status_financeiro)+sc('📊','Comercial',r.status_comercial)+sc('⚙️','Operacional',r.status_operacional);
+  if (main) main.style.display = '';
+
+  // Alertas
+  const ae = el('gtAlertasSection');
+  if (ae) {
+    const crits = (r.alertas_criticos||[]).map(a=>`<div class="gt-alerta critico">🔴 ${a.mensagem}</div>`).join('');
+    const atncs = (r.alertas_atencao||[]).map(a=>`<div class="gt-alerta atencao">🟡 ${a.mensagem}</div>`).join('');
+    if (crits||atncs) { ae.style.display=''; ae.innerHTML=`<div class="gt-ptitle">⚠️ Alertas</div>${crits}${atncs}`; }
+    else ae.style.display='none';
+  }
+
+  // Diagnóstico
+  const de = el('gtDiagSection');
+  if (de) de.innerHTML=`<div class="gt-ptitle">📌 Diagnóstico Executivo</div><div class="gt-diag-text">${r.diagnostico_executivo||'—'}</div>`;
+
+  // Prioridades + Decisões
+  const pe = el('gtPriosSection');
+  if (pe) {
+    const prios = r.prioridade_agora||[];
+    const decs  = r.decisoes_recomendadas||[];
+    pe.innerHTML =
+      (prios.length?`<div class="gt-ptitle">🎯 Prioridade Agora</div>${prios.map((p,i)=>`<div class="gt-prio-item"><div class="gt-pnum">${i+1}</div>${p}</div>`).join('')}`:'') +
+      (decs.length?`<div class="gt-ptitle" style="margin-top:14px">✅ Decisões Recomendadas</div>${decs.map(d=>`<div class="gt-decisao"><div class="gt-decisao-acao">${d.acao}</div><div class="gt-decisao-meta">${d.responsavel} · ${d.prazo}</div></div>`).join('')}`:'');
+  }
+
+  // Projeção (dark)
+  const fmtR = n => n?'R$'+Number(n).toLocaleString('pt-BR'):'—';
+  const prje = el('gtProjSection');
+  if (prje && r.projecao_mensal) {
+    const p = r.projecao_mensal;
+    const mv = p.margem_media_estimada?parseFloat(p.margem_media_estimada):null;
+    const mc = mv!==null&&mv<20?'var(--rd)':'var(--am)';
+    prje.innerHTML = `<div class="gt-ptitle">📈 Projeção Mensal</div>
+      <div class="gt-plbl">Faturamento Projetado</div><div class="gt-pv">${fmtR(p.faturamento_projetado)}</div>
+      <div class="gt-psub">${p.base_da_projecao||'CRM + histórico'}</div>
+      <div class="gt-pgrid">
+        <div class="gt-pitem"><div class="gt-plbl">Lucro Líquido</div><div class="gt-pitem-v">${fmtR(p.lucro_liquido_projetado)}</div></div>
+        <div class="gt-pitem"><div class="gt-plbl">Margem Est.</div><div class="gt-pitem-v" style="color:${mc}">${p.margem_media_estimada||'—'}</div></div>
+        <div class="gt-pitem"><div class="gt-plbl">Volume m²</div><div class="gt-pitem-v">${p.volume_m2_estimado?p.volume_m2_estimado+' m²':'—'}</div></div>
+        <div class="gt-pitem"><div class="gt-plbl">Obras Esperadas</div><div class="gt-pitem-v">${p.numero_obras_esperadas||'—'}</div></div>
+      </div>`;
+  }
+
+  // Comparativo histórico
+  const ce = el('gtCompSection');
+  if (ce && r.comparativo_historico) {
+    const c = r.comparativo_historico;
+    ce.innerHTML = `<div class="gt-ptitle">📆 Comparativo Histórico</div>
+      <table style="width:100%;font-size:12px;border-collapse:collapse">
+        <tr><td style="padding:5px 0;color:var(--t3)">Mês atual</td><td style="text-align:right;font-weight:700">${fmtR(c.faturamento_mes_atual)}</td></tr>
+        <tr style="border-top:1px solid var(--bd)"><td style="padding:5px 0;color:var(--t3)">Mesmo mês 2025</td><td style="text-align:right;font-weight:700">${fmtR(c.faturamento_mesmo_mes_2025)}</td></tr>
+        <tr style="border-top:1px solid var(--bd)"><td style="padding:5px 0;color:var(--t3)">Mesmo mês 2024</td><td style="text-align:right;font-weight:700">${fmtR(c.faturamento_mesmo_mes_2024)}</td></tr>
+        <tr style="border-top:2px solid var(--am)"><td style="padding:6px 0 3px;color:var(--t3)" colspan="2"><b>Acumulado 2026</b></td></tr>
+        <tr><td style="padding:3px 0 5px;color:var(--t3)">2026 YTD</td><td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--gn)">${fmtR(c.acumulado_ano_atual)}</td></tr>
+        <tr style="border-top:1px solid var(--bd)"><td style="padding:5px 0;color:var(--t3)">vs 2025 YTD</td><td style="text-align:right;font-weight:700">${fmtR(c.acumulado_mesmo_periodo_2025)}</td></tr>
+      </table>`;
+  }
+
+  // Perguntas para Matheus
+  const qe = el('gtPergSection');
+  if (qe) {
+    const qs = r.perguntas_para_matheus||[];
+    if (qs.length) { qe.style.display=''; qe.innerHTML=`<div class="gt-ptitle">❓ Perguntas para Você</div>${qs.map(q=>`<div class="gt-prio-item">${q}</div>`).join('')}`; }
+    else qe.style.display='none';
+  }
+}
+
+async function analisarAgora() {
+  const btn   = el('gtAnalisarBtn');
+  const notif = el('gtNotif');
+  if (btn) { btn.disabled=true; btn.textContent='⏳ Analisando…'; }
+  if (notif) notif.style.display='none';
+  try {
+    await fetch(`${MARQ_SERVER}/api/gestao/executar`,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    if (notif) { notif.style.display='block'; setTimeout(()=>{ if(notif)notif.style.display='none'; },9000); }
+  } catch { /* silencioso */ }
+  finally { if (btn) { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; } }
+}
+
+async function enviarChat() {
+  const input  = el('gtChatInput');
+  const sendBtn= el('gtSendBtn');
+  const msgsEl = el('gtChatMsgs');
+  if (!input||!msgsEl) return;
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value='';
+  if (sendBtn) sendBtn.disabled=true;
+
+  const addMsg = (cls,text) => {
+    const d=document.createElement('div'); d.className='gt-msg '+cls; d.textContent=text;
+    msgsEl.appendChild(d); msgsEl.scrollTop=msgsEl.scrollHeight; return d;
+  };
+  addMsg('user',msg);
+  chatHistoricoGestao.push({role:'user',content:msg});
+  const loadDiv=addMsg('bot loading','Consultando o Conselheiro…');
+  try {
+    const res=await fetch(`${MARQ_SERVER}/api/gestao/chat`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:msg,historico:chatHistoricoGestao.slice(-10)}),
+    });
+    const data=await res.json();
+    const resp=data.resposta||data.error||'Erro ao obter resposta.';
+    loadDiv.remove();
+    addMsg('bot',resp);
+    chatHistoricoGestao.push({role:'assistant',content:resp});
+    if(chatHistoricoGestao.length>20) chatHistoricoGestao.splice(0,2);
+  } catch {
+    loadDiv.remove(); addMsg('bot','Erro de conexão. Tente novamente.');
+  } finally {
+    if(sendBtn) sendBtn.disabled=false; input.focus();
+  }
+}
+
+function limparChat() {
+  const m=el('gtChatMsgs'); if(!m) return;
+  m.innerHTML='<div class="gt-msg bot">Olá, Matheus. Estou pronto para continuar. O que você precisa?</div>';
+  chatHistoricoGestao=[];
 }
 
 // ── BOOT ──
