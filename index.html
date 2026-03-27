@@ -3022,11 +3022,18 @@ function _gtRetomarSeEmAndamento() {
 }
 
 function renderGestaoTabVazio() {
-  const p = el('gtPeriodo'); if (p) p.textContent = 'Nenhum relatório disponível';
+  const p = el('gtPeriodo');
+  if (p) {
+    const hoje = new Date();
+    const diasAteSegunda = (1 - hoje.getDay() + 7) % 7 || 7;
+    const proxSegunda = new Date(hoje); proxSegunda.setDate(hoje.getDate() + diasAteSegunda);
+    const df = proxSegunda.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+    p.textContent = `Próximo relatório semanal: ${df} às 5h`;
+  }
   const c = el('gtCards');
   if (c) c.innerHTML = `<div style="grid-column:1/-1"><div class="gt-empty-tab">
     <div class="gt-empty-tab-icon">🧠</div>Nenhum relatório publicado ainda.<br>
-    Clique em "⚡ Analisar Agora" para gerar o primeiro diagnóstico.</div></div>`;
+    Gerado automaticamente toda segunda-feira às 5h — ou clique em "⚡ Analisar Agora".</div></div>`;
   const m = el('gtMain'); if (m) m.style.display = 'none';
 }
 
@@ -3040,7 +3047,7 @@ function renderGestaoTab(r) {
   if (!cards) return;
 
   const df = r.data ? new Date(r.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '—';
-  if (periodo) periodo.textContent = `Última análise: ${df}${r.periodo_analisado?' · '+r.periodo_analisado:''}`;
+  if (periodo) periodo.textContent = `Relatório semanal · ${df}${r.periodo_analisado?' · '+r.periodo_analisado:''}`;
 
   const sc = (ico,lbl,st) => {
     const cls = _gtCls(st);
