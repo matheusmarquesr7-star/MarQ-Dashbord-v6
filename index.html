@@ -403,6 +403,16 @@ tbody td{padding:9px 12px;vertical-align:middle}
   cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.4px}
 .gt-analisar:hover{background:var(--am);color:#fff;border-color:var(--am)}
 .gt-analisar:disabled{opacity:.4;cursor:not-allowed}
+.gt-ver-analise{padding:8px 16px;background:var(--gn);color:#fff;border:none;
+  border-radius:8px;font-family:"Barlow",sans-serif;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.4px;display:none}
+.gt-ver-analise:hover{opacity:.85}
+.gt-prog-wrap{display:none;width:100%;margin-top:8px}
+.gt-prog-bar{height:4px;background:var(--bd);border-radius:2px;overflow:hidden;width:100%}
+.gt-prog-fill{height:100%;width:0%;background:var(--am);border-radius:2px;transition:width .6s ease}
+.gt-prog-fill.indeterminate{width:40%;animation:gtSlide 1.4s ease-in-out infinite}
+.gt-prog-lbl{font-size:11px;color:var(--t3);margin-top:4px;text-align:right}
+@keyframes gtSlide{0%{transform:translateX(-150%)}100%{transform:translateX(280%)}}
 .gt-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .gt-sc{background:var(--bk);border-radius:var(--r);padding:16px 18px;border-left:4px solid #333;position:relative}
 .gt-sc.saudavel{border-left-color:var(--gn)}.gt-sc.atencao{border-left-color:var(--am)}.gt-sc.critico{border-left-color:var(--rd)}
@@ -1157,7 +1167,16 @@ tbody td{padding:9px 12px;vertical-align:middle}
       <div class="st">Inteligência de <span>Gestão</span></div>
       <div class="sd" id="gtPeriodo">Carregando último relatório…</div>
     </div>
-    <button class="gt-analisar" id="gtAnalisarBtn" onclick="analisarAgora()">⚡ Analisar Agora</button>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="gt-analisar" id="gtAnalisarBtn" onclick="analisarAgora()">⚡ Analisar Agora</button>
+        <button class="gt-ver-analise" id="gtVerAnaliseBtn" onclick="verAnalise()">✅ Ver Análise</button>
+      </div>
+      <div class="gt-prog-wrap" id="gtProgWrap">
+        <div class="gt-prog-bar"><div class="gt-prog-fill indeterminate" id="gtProgFill"></div></div>
+        <div class="gt-prog-lbl" id="gtProgLbl">Pipeline em execução… pode levar até 45 min</div>
+      </div>
+    </div>
   </div>
 
   <!-- Status Cards -->
@@ -1167,11 +1186,8 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div class="gt-sc"><div class="gt-sc-lbl">⚙️ Operacional</div><div class="gt-sc-val"><div class="gt-sdot"></div>—</div></div>
   </div>
 
-  <!-- Notificação "Analisando..." -->
-  <div id="gtNotif" style="display:none;background:var(--gnl);border:1px solid var(--gn);border-radius:var(--r);
-    padding:10px 14px;font-size:13px;color:var(--gn);font-weight:600;margin-bottom:14px">
-    ✅ Análise iniciada! O relatório estará disponível em ~3 minutos. Clique em "Analisar Agora" para atualizar.
-  </div>
+  <!-- Notificação "Analisando..." (legado — mantido oculto) -->
+  <div id="gtNotif" style="display:none"></div>
 
   <!-- Grid principal: alertas+diagnóstico+prioridades | projeção+comparativo -->
   <div class="gt-grid" id="gtMain" style="display:none">
@@ -3035,16 +3051,85 @@ function renderGestaoTab(r) {
   }
 }
 
+let _gtPollingTimer = null;
+let _gtBaseReportDate = null;
+
 async function analisarAgora() {
-  const btn   = el('gtAnalisarBtn');
-  const notif = el('gtNotif');
-  if (btn) { btn.disabled=true; btn.textContent='⏳ Analisando…'; }
-  if (notif) notif.style.display='none';
+  const btn       = el('gtAnalisarBtn');
+  const verBtn    = el('gtVerAnaliseBtn');
+  const progWrap  = el('gtProgWrap');
+  const progFill  = el('gtProgFill');
+  const progLbl   = el('gtProgLbl');
+
+  // captura data do relatório atual para detectar novo
+  try {
+    const cur = await fetch(`${MARQ_SERVER}/api/gestao/ultimo-relatorio`);
+    if (cur.ok) { const r = await cur.json(); _gtBaseReportDate = r.data || null; }
+  } catch { _gtBaseReportDate = null; }
+
+  // mostra loading, esconde "Ver Análise"
+  if (btn)      { btn.disabled=true; btn.textContent='⏳ Analisando…'; }
+  if (verBtn)   { verBtn.style.display='none'; }
+  if (progWrap) { progWrap.style.display='block'; }
+  if (progFill) { progFill.classList.add('indeterminate'); progFill.style.width=''; }
+  if (progLbl)  { progLbl.textContent='Pipeline em execução… pode levar até 45 min'; }
+
+  // dispara pipeline
   try {
     await fetch(`${MARQ_SERVER}/api/gestao/executar`,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
-    if (notif) { notif.style.display='block'; setTimeout(()=>{ if(notif)notif.style.display='none'; },9000); }
-  } catch { /* silencioso */ }
-  finally { if (btn) { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; } }
+  } catch { /* silencioso — pipeline pode ter iniciado mesmo assim */ }
+
+  // polling a cada 30s para detectar novo relatório
+  if (_gtPollingTimer) clearInterval(_gtPollingTimer);
+  const _start = Date.now();
+  const _maxMs = 75 * 60 * 1000; // 75 min timeout
+
+  _gtPollingTimer = setInterval(async () => {
+    const elapsed = Date.now() - _start;
+    // atualiza label com tempo decorrido
+    if (progLbl) {
+      const mins = Math.floor(elapsed / 60000);
+      progLbl.textContent = `Pipeline em execução… ${mins > 0 ? mins + ' min' : 'menos de 1 min'} (pode levar até 45 min)`;
+    }
+    // timeout de segurança
+    if (elapsed > _maxMs) {
+      clearInterval(_gtPollingTimer); _gtPollingTimer = null;
+      if (btn)      { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; }
+      if (progWrap) { progWrap.style.display='none'; }
+      if (progLbl)  { progLbl.textContent='Tempo limite atingido. Tente novamente.'; }
+      return;
+    }
+    try {
+      const res = await fetch(`${MARQ_SERVER}/api/gestao/ultimo-relatorio`);
+      if (!res.ok) return;
+      const r = await res.json();
+      const newDate = r.data || null;
+      if (newDate && newDate !== _gtBaseReportDate) {
+        // novo relatório disponível!
+        clearInterval(_gtPollingTimer); _gtPollingTimer = null;
+        if (progFill) { progFill.classList.remove('indeterminate'); progFill.style.width='100%'; }
+        if (progLbl)  { progLbl.textContent='Análise concluída!'; }
+        setTimeout(() => {
+          if (btn)      { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; }
+          if (progWrap) { progWrap.style.display='none'; }
+          if (verBtn)   { verBtn.style.display=''; }
+        }, 800);
+        // pré-carrega o novo relatório
+        renderGestaoTab(r);
+        renderGestao(r);
+      }
+    } catch { /* silencioso */ }
+  }, 30_000);
+}
+
+function verAnalise() {
+  const verBtn = el('gtVerAnaliseBtn');
+  if (verBtn) verBtn.style.display='none';
+  // rola para o conteúdo do relatório
+  const m = el('gtMain');
+  if (m && m.style.display !== 'none') {
+    m.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 
 async function enviarChat() {
