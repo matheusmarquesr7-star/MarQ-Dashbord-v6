@@ -2955,6 +2955,70 @@ async function carregarGestaoTab() {
     renderGestaoTab(r);
     renderGestao(r); // sincroniza mini painel da Visão Geral
   } catch { renderGestaoTabVazio(); }
+  // retoma polling se análise foi solicitada e ainda não chegou
+  _gtRetomarSeEmAndamento();
+}
+
+function _gtRetomarSeEmAndamento() {
+  try {
+    const saved = localStorage.getItem('gt_analise');
+    if (!saved) return;
+    const { requestedAt, baseDate } = JSON.parse(saved);
+    const elapsed = Date.now() - requestedAt;
+    if (elapsed > 75 * 60 * 1000) { localStorage.removeItem('gt_analise'); return; } // expirou
+    if (_gtPollingTimer) return; // já está pollingando
+
+    _gtBaseReportDate = baseDate;
+    const btn      = el('gtAnalisarBtn');
+    const verBtn   = el('gtVerAnaliseBtn');
+    const progWrap = el('gtProgWrap');
+    const progFill = el('gtProgFill');
+    const progLbl  = el('gtProgLbl');
+
+    if (btn)      { btn.disabled=true; btn.textContent='⏳ Analisando…'; }
+    if (verBtn)   { verBtn.style.display='none'; }
+    if (progWrap) { progWrap.style.display='block'; }
+    if (progFill) { progFill.classList.add('indeterminate'); progFill.style.width=''; }
+    if (progLbl) {
+      const mins = Math.floor(elapsed / 60000);
+      progLbl.textContent = `Pipeline em execução… ${mins > 0 ? mins + ' min' : 'menos de 1 min'} (pode levar até 45 min)`;
+    }
+
+    const _maxMs = 75 * 60 * 1000;
+    _gtPollingTimer = setInterval(async () => {
+      const totalElapsed = Date.now() - requestedAt;
+      if (progLbl) {
+        const mins = Math.floor(totalElapsed / 60000);
+        progLbl.textContent = `Pipeline em execução… ${mins > 0 ? mins + ' min' : 'menos de 1 min'} (pode levar até 45 min)`;
+      }
+      if (totalElapsed > _maxMs) {
+        clearInterval(_gtPollingTimer); _gtPollingTimer = null;
+        localStorage.removeItem('gt_analise');
+        if (btn)      { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; }
+        if (progWrap) { progWrap.style.display='none'; }
+        return;
+      }
+      try {
+        const res = await fetch(`${MARQ_SERVER}/api/gestao/ultimo-relatorio`);
+        if (!res.ok) return;
+        const r = await res.json();
+        const newDate = r.data || null;
+        if (newDate && newDate !== _gtBaseReportDate) {
+          clearInterval(_gtPollingTimer); _gtPollingTimer = null;
+          localStorage.removeItem('gt_analise');
+          if (progFill) { progFill.classList.remove('indeterminate'); progFill.style.width='100%'; }
+          if (progLbl)  { progLbl.textContent='Análise concluída!'; }
+          setTimeout(() => {
+            if (btn)      { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; }
+            if (progWrap) { progWrap.style.display='none'; }
+            if (verBtn)   { verBtn.style.display=''; }
+          }, 800);
+          renderGestaoTab(r);
+          renderGestao(r);
+        }
+      } catch { /* silencioso */ }
+    }, 30_000);
+  } catch { /* localStorage indisponível */ }
 }
 
 function renderGestaoTabVazio() {
@@ -3067,6 +3131,9 @@ async function analisarAgora() {
     if (cur.ok) { const r = await cur.json(); _gtBaseReportDate = r.data || null; }
   } catch { _gtBaseReportDate = null; }
 
+  // persiste no localStorage para retomar após fechar o app
+  localStorage.setItem('gt_analise', JSON.stringify({ requestedAt: Date.now(), baseDate: _gtBaseReportDate }));
+
   // mostra loading, esconde "Ver Análise"
   if (btn)      { btn.disabled=true; btn.textContent='⏳ Analisando…'; }
   if (verBtn)   { verBtn.style.display='none'; }
@@ -3094,6 +3161,7 @@ async function analisarAgora() {
     // timeout de segurança
     if (elapsed > _maxMs) {
       clearInterval(_gtPollingTimer); _gtPollingTimer = null;
+      localStorage.removeItem('gt_analise');
       if (btn)      { btn.disabled=false; btn.textContent='⚡ Analisar Agora'; }
       if (progWrap) { progWrap.style.display='none'; }
       if (progLbl)  { progLbl.textContent='Tempo limite atingido. Tente novamente.'; }
@@ -3107,6 +3175,7 @@ async function analisarAgora() {
       if (newDate && newDate !== _gtBaseReportDate) {
         // novo relatório disponível!
         clearInterval(_gtPollingTimer); _gtPollingTimer = null;
+        localStorage.removeItem('gt_analise');
         if (progFill) { progFill.classList.remove('indeterminate'); progFill.style.width='100%'; }
         if (progLbl)  { progLbl.textContent='Análise concluída!'; }
         setTimeout(() => {
