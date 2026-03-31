@@ -824,6 +824,22 @@ tbody td{padding:9px 12px;vertical-align:middle}
     <div id="orc_sumi_calc" style="background:var(--gnl);border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gn);font-weight:700;display:none"></div>
   </div>
   <div id="blk_tubos" style="display:none;flex-direction:column;gap:8px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+          <div class="kl">Tubos 200mm</div>
+          <span style="font-size:10px;color:var(--t3)">R$80/ml</span>
+        </div>
+        <input id="orc_t200" class="orc-input" type="number" placeholder="Metros" oninput="recalc()">
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+          <div class="kl">Tubos 300mm</div>
+          <span style="font-size:10px;color:var(--t3)">R$100/ml</span>
+        </div>
+        <input id="orc_t300" class="orc-input" type="number" placeholder="Metros" oninput="recalc()">
+      </div>
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
       <div>
         <div style="display:flex;justify-content:space-between;margin-bottom:3px">
@@ -2204,7 +2220,7 @@ let orcPrazo = null;
 const BLQ_PRENSADO = 56, BLQ_USINADO = 40, PO_BRITA = 8, MO_BLQ = 8;
 const FRETE_USINADO_VIAG = 800, FRETE_USINADO_M2 = 120;
 const MF_CORDAO = 24, MF_NOVACAP = 28;
-const TUBO400 = 125, TUBO600 = 180, TUBO800 = 280, CAIXA = 1500, SUMI = 1500, DISSIPADOR = 3000;
+const TUBO200 = 80, TUBO300 = 100, TUBO400 = 125, TUBO600 = 180, TUBO800 = 280, CAIXA = 1500, SUMI = 1500, DISSIPADOR = 3000;
 const RETRO_DIA = 1500, PATROL_DIA = 2500, ROLO_DIA = 2500, PIPA_DIA = 1000, PIPA_VIAG = 350;
 const CASCALHO = 700, ENTULHO = 500, TERRA_V = 400, CACAMBA = 350, RAMAL_M2 = 35;
 const PLACA_DIA = 150, SAPINHO_DIA = 150, BRITA_VIAG = 2000, AREIA_VIAG = 2000;
@@ -2579,11 +2595,14 @@ function recalc(){
     sc.textContent   = custoDren>0 ? n('orc_sumi_qtd')+' sumidouros = '+fmt(custoDren) : '';
     el('orc_dren_custo_label').textContent = custoDren>0 ? fmt(custoDren) : '';
   } else if(orcDren === 'tubos'){
-    const c400=n('orc_t400')*TUBO400, c600=n('orc_t600')*TUBO600,
+    const c200=n('orc_t200')*TUBO200, c300=n('orc_t300')*TUBO300,
+          c400=n('orc_t400')*TUBO400, c600=n('orc_t600')*TUBO600,
           c800=n('orc_t800')*TUBO800, cCx=n('orc_caixas')*CAIXA,
           cDis=n('orc_dissipadores')*DISSIPADOR;
-    custoDren = c400+c600+c800+cCx+cDis;
+    custoDren = c200+c300+c400+c600+c800+cCx+cDis;
     let tl=[];
+    if(c200) tl.push(`200mm(${n('orc_t200')}ml): ${fmt(c200)}`);
+    if(c300) tl.push(`300mm(${n('orc_t300')}ml): ${fmt(c300)}`);
     if(c400) tl.push(`400mm(${n('orc_t400')}un): ${fmt(c400)}`);
     if(c600) tl.push(`600mm(${n('orc_t600')}un): ${fmt(c600)}`);
     if(c800) tl.push(`800mm(${n('orc_t800')}un): ${fmt(c800)}`);
@@ -2736,7 +2755,7 @@ function enviarOrc(){
   // Drenagem
   let cDren = 0;
   if(orcDren==='sumidouros') cDren = n('orc_sumi_qtd')*SUMI;
-  else if(orcDren==='tubos') cDren = n('orc_t400')*TUBO400 + n('orc_t600')*TUBO600 + n('orc_t800')*TUBO800 + n('orc_caixas')*CAIXA + n('orc_dissipadores')*DISSIPADOR;
+  else if(orcDren==='tubos') cDren = n('orc_t200')*TUBO200 + n('orc_t300')*TUBO300 + n('orc_t400')*TUBO400 + n('orc_t600')*TUBO600 + n('orc_t800')*TUBO800 + n('orc_caixas')*CAIXA + n('orc_dissipadores')*DISSIPADOR;
 
   // Outros
   let cOutros = 0;
@@ -2801,7 +2820,7 @@ ${orcTipo==='condominio'?`<br><strong>Condomínio:</strong> ${el('orc_condominio
 <br><strong>Bloquete:</strong> ${[chk('orc_prensado')?'Prensado':null,chk('orc_usinado')?'Usinado':null].filter(Boolean).join(' + ')}
 ${chk('orc_tem_mf')?`<br><strong>Meio-fio:</strong> Cordão: ${n('orc_mf_cordao')} un (${fmt(n('orc_mf_cordao')*MF_CORDAO)}) | NOVACAP: ${n('orc_mf_novacap')} un (${fmt(n('orc_mf_novacap')*MF_NOVACAP)})`:''}
 ${chk('orc_tem_terra')?`<br><strong>Terraplanagem:</strong> ${eqsDetalhe.join(' | ')||'—'} = ${fmt(cTerra)}`:''}
-<br><strong>Drenagem:</strong> ${orcDren==='nao'?'Não precisa':orcDren==='sumidouros'?`${n('orc_sumi_qtd')} sumidouros = ${fmt(cDren)}`:`Tubos 400(${n('orc_t400')}) 600(${n('orc_t600')}) 800(${n('orc_t800')}) + ${n('orc_caixas')} caixas = ${fmt(cDren)}`}
+<br><strong>Drenagem:</strong> ${orcDren==='nao'?'Não precisa':orcDren==='sumidouros'?`${n('orc_sumi_qtd')} sumidouros = ${fmt(cDren)}`:`200mm:${n('orc_t200')}ml 300mm:${n('orc_t300')}ml 400:${n('orc_t400')}un 600:${n('orc_t600')}un 800:${n('orc_t800')}un + ${n('orc_caixas')} caixas = ${fmt(cDren)}`}
 <br><strong>Prazo:</strong> ${prazo||'—'} dias úteis
 ${detalhamento}
 ${custoResumo}
@@ -2846,7 +2865,7 @@ ${obs?`<br><br><strong>Observações:</strong><br>${obs}`:''}
 function limparFormOrc(){
   ['orc_cliente','orc_condominio','orc_local','orc_telefone','orc_metragem','orc_moradores','orc_terra_desc',
    'orc_outros_desc','orc_outros_val','orc_obs','orc_prazo_custom','orc_mf_cordao','orc_mf_novacap',
-   'orc_sumi_qtd','orc_t400','orc_t600','orc_t800','orc_caixas','orc_dissipadores','orc_mo_empreita','orc_cobrar',
+   'orc_sumi_qtd','orc_t200','orc_t300','orc_t400','orc_t600','orc_t800','orc_caixas','orc_dissipadores','orc_mo_empreita','orc_cobrar',
    'orc_retro_dias','orc_retro_frete','orc_retro_diaria','orc_patrol_dias','orc_patrol_frete','orc_patrol_diaria','orc_rolo_dias','orc_rolo_frete','orc_rolo_diaria','orc_pipa_dias','orc_pipa_viag','orc_frete_mf_val',
    'orc_cascalho_viag','orc_entulho_viag','orc_terra_viag','orc_cacamba_qtd',
    'orc_placa_dias','orc_sapinho_dias','orc_cimento_sacos','orc_gasolina_val','orc_ramal_m2',
